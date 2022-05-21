@@ -22,3 +22,23 @@ export function saveTask(text: string, order: number): Promise<{status: string, 
     })
   })
 }
+
+type newTaskResponse = { status: string, task: TaskType }
+
+export function handleNewTaskResponse(response: newTaskResponse, setTasks: Function) {
+  if (response.status === "ok") {
+    updateStateIfResponseOk(response, setTasks)
+  } else {
+    displayErrorIfResponseError(response)
+  }
+}
+
+function updateStateIfResponseOk(response: newTaskResponse, setTasks: Function) {
+  setTasks((state: TaskType[]) => {
+    return state.concat([response.task])
+  })
+}
+
+function displayErrorIfResponseError(response: newTaskResponse) {
+  console.log("NOT IMPLEMENTED! Error when communicating with the server")
+}

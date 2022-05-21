@@ -21,3 +21,20 @@ export function getTasks(): Promise<{ tasks: TaskType[], status: string }> {
     })
   })
 }
+type getTasksResponse = { status: string, tasks: TaskType[] }
+
+export function handleGetTasksResponse(response: getTasksResponse, setTasks: Function) {
+  if (response.status === "ok") {
+    setInitialTasks(response, setTasks)
+  } else {
+    displayGetErrorIfResponseError(response)
+  }
+}
+
+function setInitialTasks(response: getTasksResponse, setTasks: Function) {
+  setTasks(response.tasks)
+}
+
+function displayGetErrorIfResponseError(response: getTasksResponse) {
+  console.log("NOT IMPLEMENTED! Error when communicating with the server")
+}
