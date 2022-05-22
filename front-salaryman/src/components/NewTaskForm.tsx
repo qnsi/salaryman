@@ -1,10 +1,10 @@
 import React from "react"
 
-export default function NewTaskForm(props: {addNewTask: Function}) {
+export default function NewTaskForm(props: {addNewTask: Function, parentId: number}) {
   const [value, setValue] = React.useState("")
 
   function handleSubmit() {
-    props.addNewTask(value)
+    props.addNewTask(value, props.parentId)
     setValue("")
   }
 
