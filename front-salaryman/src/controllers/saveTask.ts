@@ -1,6 +1,6 @@
 import { TaskType } from "../components/TaskView"
 
-export function saveTask(text: string, order: number): Promise<{status: string, task: TaskType}> {
+export function saveTask(text: string, order: number, parentId: number): Promise<{status: string, task: TaskType}> {
   return new Promise((resolve, reject) => {
     fetch("http://localhost:3001/tasks/new", {
       method: "POST",
@@ -8,7 +8,7 @@ export function saveTask(text: string, order: number): Promise<{status: string, 
         "Accept": "application/json",
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({task: {text, order}})
+      body: JSON.stringify({task: {text, order, parentId}})
     }).then(res => {
       if (res.ok) {
         res.json().then(json => { 

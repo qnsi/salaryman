@@ -32,9 +32,35 @@ export function handleGetTasksResponse(response: getTasksResponse, setTasks: Fun
 }
 
 function setInitialTasks(response: getTasksResponse, setTasks: Function) {
-  setTasks(response.tasks)
+  const tasks = prepareTasksWithIntendation(response.tasks)
+  setTasks(tasks)
 }
 
 function displayGetErrorIfResponseError(response: getTasksResponse) {
   console.log("NOT IMPLEMENTED! Error when communicating with the server")
+}
+
+function prepareTasksWithIntendation(tasks: TaskType[]) {
+  var tasksSorted: TaskType[] = []
+  for (const task of tasks) {
+    if (task.parentId === null) {
+      task.intendation = 0
+      const children = findTaskChildren(tasks, task.id, 0)
+      tasksSorted = tasksSorted.concat([task])
+      tasksSorted = tasksSorted.concat(children)
+    }
+  }
+  return tasksSorted
+}
+
+function findTaskChildren(tasks: TaskType[], parentId: number, intendation: number) {
+  const children = tasks.filter((task) => task.parentId === parentId)
+  var ordered: TaskType[] = []
+  for (const child of children) {
+    child.intendation = intendation+1
+    ordered = ordered.concat([child])
+    const grandchildren = findTaskChildren(tasks, child.id, intendation+1)
+    ordered = ordered.concat(grandchildren)
+  }
+  return ordered
 }
