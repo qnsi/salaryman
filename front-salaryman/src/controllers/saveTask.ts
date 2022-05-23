@@ -35,7 +35,15 @@ export function handleNewTaskResponse(response: newTaskResponse, setTasks: Funct
 
 function updateStateIfResponseOk(response: newTaskResponse, setTasks: Function) {
   setTasks((state: TaskType[]) => {
-    return state.concat([response.task])
+    var newState = [...state]
+    const siblings = state.filter((task) => task.parentId == response.task.parentId)
+    const siblingsFiltered = siblings.sort((a,b) => a.order - b.order)
+    const lastSibling = siblingsFiltered[siblingsFiltered.length - 1]
+    const lastSiblingIndexOf = state.indexOf(lastSibling)
+    
+    response.task.intendation = lastSibling.intendation
+    newState.splice(lastSiblingIndexOf+1, 0, response.task)
+    return newState
   })
 }
 
