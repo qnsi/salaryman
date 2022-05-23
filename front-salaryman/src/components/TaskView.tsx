@@ -2,6 +2,7 @@ import React from "react";
 import { deleteTaskFromBackend, handleDeleteResponse } from "../controllers/deleteTask";
 import { getTasks, handleGetTasksResponse } from "../controllers/getTasks";
 import { handleNewTaskResponse, saveTask } from "../controllers/saveTask";
+import { updateTaskInBackend } from "../controllers/updateTask";
 import NewTaskForm from "./NewTaskForm";
 import Task from "./Task";
 
@@ -69,11 +70,17 @@ export default function TaskView() {
     }
   }
 
-  function collapseTask(task: TaskType) {
+  async function collapseTask(task: TaskType) {
+    collapseInState(task)
+    const resp = await updateTaskInBackend(task.id, !task.collapsed)
+  }
+
+  function collapseInState(task: TaskType) {
     setTasks((state: TaskType[]) => {
       var newState: TaskType[] = []
       var startingCollapse = false
 
+      // would like to refactor into functional style
       for (var oldTask of state) {
         var newTask = {...oldTask}
 

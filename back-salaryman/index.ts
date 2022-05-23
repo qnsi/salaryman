@@ -4,6 +4,7 @@ import { PrismaClient } from '@prisma/client'
 import { saveTask } from "./controllers/saveTaskController"
 import { getTasks } from "./controllers/getTasksController"
 import deleteTask from "./controllers/deleteTasksController"
+import { updateTask } from "./controllers/updateTaskController"
 
 const prisma = new PrismaClient()
 
@@ -22,6 +23,10 @@ app.post("/tasks/new", (req: Request, res: Response) => {
 
 app.post("/tasks/delete", (req: Request, res: Response) => {
   deleteTask(req, res, prisma)
+})
+
+app.put("/tasks", (req: Request, res: Response) => {
+  updateTask(req, res, prisma)
 })
 
 // hacky way to clear test_db between tests. Probably would need docker to run tests in real isolation

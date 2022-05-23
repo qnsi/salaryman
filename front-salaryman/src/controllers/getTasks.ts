@@ -23,7 +23,7 @@ export function getTasks(): Promise<{ tasks: TaskType[], status: string }> {
 }
 type getTasksResponse = { status: string, tasks: TaskType[] }
 
-export function handleGetTasksResponse(response: getTasksResponse, setTasks: Function) {
+export async function handleGetTasksResponse(response: getTasksResponse, setTasks: Function) {
   if (response.status === "ok") {
     setInitialTasks(response, setTasks)
   } else {
@@ -33,7 +33,8 @@ export function handleGetTasksResponse(response: getTasksResponse, setTasks: Fun
 
 function setInitialTasks(response: getTasksResponse, setTasks: Function) {
   const tasks = prepareTasksWithIntendation(response.tasks)
-  setTasks(tasks)
+  const hiddenTasks = hidTaskThatShouldBeCollapsed(tasks)
+  setTasks(hiddenTasks)
 }
 
 function displayGetErrorIfResponseError(response: getTasksResponse) {
@@ -41,6 +42,7 @@ function displayGetErrorIfResponseError(response: getTasksResponse) {
 }
 
 function prepareTasksWithIntendation(tasks: TaskType[]) {
+  tasks = tasks.sort((a,b) => a.order - b.order)
   var tasksSorted: TaskType[] = []
   for (const task of tasks) {
     if (task.parentId === null) {
@@ -54,7 +56,8 @@ function prepareTasksWithIntendation(tasks: TaskType[]) {
 }
 
 function findTaskChildren(tasks: TaskType[], parentId: number, intendation: number) {
-  const children = tasks.filter((task) => task.parentId === parentId)
+  var children = tasks.filter((task) => task.parentId === parentId)
+  children = children.sort((a,b) => a.order - b.order)
   var ordered: TaskType[] = []
   for (const child of children) {
     child.intendation = intendation+1
@@ -64,3 +67,40 @@ function findTaskChildren(tasks: TaskType[], parentId: number, intendation: numb
   }
   return ordered
 }
+
+function hidTaskThatShouldBeCollapsed(tasks: TaskType[]) {
+  for (const task of tasks) {
+    if (task.collapsed) {
+      tasks = hideChildrenInState(tasks, task)
+    }
+  }
+
+  return tasks
+}
+
+function hideChildrenInState(tasks: TaskType[], task: TaskType) {
+    var newState: TaskType[] = []
+    var startingCollapse = false
+
+    // would like to refactor into functional style
+    for (var oldTask of tasks) {
+      var newTask = { ...oldTask }
+
+      if (startingCollapse) {
+        if (newTask.parentId === task.parentId) {
+          startingCollapse = false
+        } else if (newTask.intendation < task.intendation) {
+          startingCollapse = false
+        } else {
+          newTask.hidden = !newTask.hidden
+        }
+      }
+      if (newTask.id === task.id) {
+        startingCollapse = true
+      }
+      newState.push(newTask)
+    }
+    console.log(newState)
+    return newState
+}
+

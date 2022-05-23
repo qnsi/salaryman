@@ -16,6 +16,7 @@ model Task {
   updatedAt DateTime @updatedAt
   text   String
   order Int
+  collapsed Boolean @default(false)
   isDone Boolean @default(false)
   parentTask Task? @relation("TaskRelation", fields: [parentId], references: [id])
   childTasks Task[] @relation("TaskRelation")
