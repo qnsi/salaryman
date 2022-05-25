@@ -35,7 +35,7 @@ export default function Task(props: {task: TaskType, setAddingSubtaskId: Functio
       })}
       <div className="task" key={props.task.id} >
         <span onClick={() => props.collapseTask(props.task)}>{collapsedCharacter}</span>
-        <span>{props.task.text}</span>
+        <span className="task-text">{props.task.text}</span>
         <span className="task-spacer"></span>
         {buttons}
       </div>

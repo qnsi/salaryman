@@ -36,16 +36,40 @@ export function handleNewTaskResponse(response: newTaskResponse, setTasks: Funct
 function updateStateIfResponseOk(response: newTaskResponse, setTasks: Function) {
   setTasks((state: TaskType[]) => {
     var newState = [...state]
-    const siblings = state.filter((task) => task.parentId == response.task.parentId)
-    const siblingsFiltered = siblings.sort((a,b) => a.order - b.order)
-    const lastSibling = siblingsFiltered[siblingsFiltered.length - 1]
-    const lastSiblingIndexOf = state.indexOf(lastSibling)
-    
-    response.task.intendation = lastSibling.intendation
-    newState.splice(lastSiblingIndexOf+1, 0, response.task)
+    if (response.task.parentId) {
+      response = setCorrectIntendation(state, response)
+      const nextUncleIndexInState = findAncestorUncle(state, response.task)
+      newState.splice(nextUncleIndexInState, 0, response.task)
+    } else {
+      response.task.intendation = 0
+      newState.push(response.task)
+    }
     return newState
   })
 }
+
+function setCorrectIntendation(state: TaskType[], response: newTaskResponse) {
+  const parent = state.find((task) => task.id === response.task.parentId) as TaskType
+  response.task.intendation = parent.intendation + 1
+  return response
+}
+
+function findAncestorUncle(state: TaskType[], current_task: TaskType): number {
+  if (current_task.parentId === null) {
+    return state.length
+  }
+
+  const parent = state.find((task) => task.id === current_task.parentId) as TaskType
+  const uncles = state.filter((task) => task.parentId === parent.parentId)
+  const parentIndexOfInUncles = uncles.indexOf(parent)
+
+  if (uncles.length === parentIndexOfInUncles + 1) {
+    return findAncestorUncle(state, parent)
+  } else {
+    return state.indexOf(uncles[parentIndexOfInUncles+1])
+  }
+}
+
 
 function displayErrorIfResponseError(response: newTaskResponse) {
   console.log("NOT IMPLEMENTED! Error when communicating with the server")
