@@ -1,0 +1,21 @@
+{
+  "name": "nabu-elite-chat",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/qnsi/nabu-chat.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/qnsi/nabu-chat/issues"
+  },
+  "homepage": "https://github.com/qnsi/nabu-chat#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.21.1"
+  }
+}
