@@ -18,7 +18,7 @@ model Task {
   order Int
   collapsed Boolean @default(false)
   isDone Boolean @default(false)
-  parentTask Task? @relation("TaskRelation", fields: [parentId], references: [id])
+  parentTask Task? @relation("TaskRelation", fields: [parentId], references: [id], onDelete: Cascade)
   childTasks Task[] @relation("TaskRelation")
   parentId Int?
 }
