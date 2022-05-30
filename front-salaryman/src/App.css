@@ -57,7 +57,7 @@
   flex-direction: row;
 }
 
-.task:hover {
+.task-focused {
   background-color: #DDD;
 }
 

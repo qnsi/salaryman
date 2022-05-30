@@ -3,6 +3,8 @@ import { deleteTaskFromBackend, handleDeleteResponse } from "../controllers/dele
 import { getTasks, handleGetTasksResponse } from "../controllers/getTasks";
 import { handleNewTaskResponse, saveTask } from "../controllers/saveTask";
 import { updateTaskInBackend } from "../controllers/updateTask";
+import useDeleteKeyboardShortcut from "../helpers/deleteKeyboardShortcut";
+import useKeyboardShortcuts from "../helpers/keyboardShortcuts";
 import NewTaskForm from "./NewTaskForm";
 import Task from "./Task";
 
@@ -24,12 +26,18 @@ var initTasks: TaskType[] = []
 export default function TaskView() {
   const [tasks, setTasks] = React.useState(initTasks)
   const [addingSubtaskId, setAddingSubtaskId] = React.useState(0)
+  const [focusedTaskId, setFocusedTaskId] = React.useState(0)
+  const [inputFocused, setInputFocused] = React.useState(true)
+  const [deleteProgress, setDeleteProgress] = React.useState(0)
 
   React.useEffect(() => {
     getTasks().then((response) => {
       handleGetTasksResponse(response, setTasks)
     })
   }, [])
+
+  useKeyboardShortcuts(tasks, focusedTaskId, setFocusedTaskId, setAddingSubtaskId, setInputFocused, inputFocused)
+  useDeleteKeyboardShortcut(deleteProgress, setDeleteProgress, deleteTask, focusedTaskId)
 
   async function addNewTask(value: string, parentId: number) {
     setAddingSubtaskId(0)
@@ -40,6 +48,7 @@ export default function TaskView() {
   async function deleteTask(id: number) {
     const response = await deleteTaskFromBackend(id)
     handleDeleteResponse(response, id, setTasks)
+    setFocusedTaskId(0)
   }
 
   return (
@@ -49,12 +58,16 @@ export default function TaskView() {
           {return constructTask(task)}
         })}
       </div>
-      <NewTaskForm addNewTask={addNewTask} parentId={0}/>
+      <NewTaskForm addNewTask={addNewTask} parentId={0} focusedTaskId={focusedTaskId} inputFocused={inputFocused} setInputFocused={setInputFocused}/>
     </div>
   )
 
   function constructTask(task: TaskType) {
-    const taskElement = <Task key={task.id} task={task} setAddingSubtaskId={setAddingSubtaskId} deleteTask={deleteTask} collapseTask={collapseTask} />
+    const taskElement = <Task key={task.id} task={task} setAddingSubtaskId={setAddingSubtaskId}
+                              deleteTask={deleteTask} deleteProgress={deleteProgress} collapseTask={collapseTask} 
+                              focusedTaskId={focusedTaskId} setFocusedTaskId={setFocusedTaskId}
+
+                        />
     if (task.hidden) {
       return <></>
     }
@@ -62,7 +75,7 @@ export default function TaskView() {
       return (
         <div key={task.id}>
           {taskElement}
-          <NewTaskForm addNewTask={addNewTask} parentId={task.id}/>
+          <NewTaskForm addNewTask={addNewTask} parentId={task.id} focusedTaskId={focusedTaskId} inputFocused={inputFocused} setInputFocused={setInputFocused}/>
         </div>
       )
     } else {
