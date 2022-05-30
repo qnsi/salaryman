@@ -36,7 +36,7 @@ export default function TaskView() {
     })
   }, [])
 
-  useKeyboardShortcuts(tasks, focusedTaskId, setFocusedTaskId, setAddingSubtaskId, setInputFocused, inputFocused)
+  useKeyboardShortcuts(tasks, focusedTaskId, setFocusedTaskId, setAddingSubtaskId, setInputFocused, inputFocused, collapseTask)
   useDeleteKeyboardShortcut(deleteProgress, setDeleteProgress, deleteTask, focusedTaskId)
 
   async function addNewTask(value: string, parentId: number) {
