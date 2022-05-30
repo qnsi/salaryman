@@ -54,9 +54,8 @@ run `PWDEBUG=1 npx playwright test tests/unreadMessages `
 
 # Functionalities
 
-You can read about functionalities by reading tests. But here is an overview:
- 
 - adding new tasks using form at the bottom
-- adding subtasks (hover over task and add using form)
-- deleting tasks (altought it doesnt delete children)
-- primitive hiding tasks by clicking minus next to a task (doesnt work right now with nested collapsed)
+- moving focus between tasks ("j" and "k")
+- adding subtasks (hover over task and add using form) (keyboard shortcut: "s" when task is focused)
+- deleting tasks (keyboard shortcut: hold "d" when task is focused)
+- primitive hiding tasks by clicking minus next to a task (doesnt work right now with nested collapsed) (keyboard shortcut "h")
