@@ -100,7 +100,6 @@ function hideChildrenInState(tasks: TaskType[], task: TaskType) {
       }
       newState.push(newTask)
     }
-    console.log(newState)
     return newState
 }
 
