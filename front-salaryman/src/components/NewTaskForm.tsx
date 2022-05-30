@@ -33,7 +33,13 @@ export default function NewTaskForm(props: {addNewTask: Function, parentId: numb
   return (
     <div className="tasks-form">
       <form onSubmit={handleSubmit}>
-        <input ref={inputRef} value={value} onChange={(e) => setValue(e.currentTarget.value)} />
+        <input 
+            ref={inputRef}
+            value={value}
+            onChange={(e) => setValue(e.currentTarget.value)} 
+            onFocus={(e) => props.setInputFocused(true)}
+            onBlur={(e) => props.setInputFocused(false)}
+        />
         <button>
           Add
         </button>
