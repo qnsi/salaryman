@@ -4,7 +4,7 @@ import { getTasks, handleGetTasksResponse } from "../controllers/getTasks";
 import { handleNewTaskResponse, saveTask } from "../controllers/saveTask";
 import { updateTaskInBackend } from "../controllers/updateTask";
 import useDeleteKeyboardShortcut from "../helpers/deleteKeyboardShortcut";
-import useKeyboardShortcuts from "../helpers/keyboardShortcuts";
+import useKeyboardShortcuts, { moveFocusUp } from "../helpers/keyboardShortcuts";
 import NewTaskForm from "./NewTaskForm";
 import Task from "./Task";
 
@@ -48,7 +48,7 @@ export default function TaskView() {
   async function deleteTask(id: number) {
     const response = await deleteTaskFromBackend(id)
     handleDeleteResponse(response, id, setTasks)
-    setFocusedTaskId(0)
+    moveFocusUp(tasks, id, setFocusedTaskId)
   }
 
   return (

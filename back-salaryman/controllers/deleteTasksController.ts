@@ -30,7 +30,7 @@ async function deleteTaskFromDB(id: number, prisma: PrismaClient) {
 }
 
 async function fixOrderAfterDeletion(parentId: number | null, deletedTaskOrder: number, prisma: PrismaClient) {
-  const siblings = await findSiblings(parentId, prisma)
+  const siblings = await findTasksWithParentId(parentId, prisma)
   for (const sibling of siblings) {
     if (sibling.order > deletedTaskOrder) {
       await updateOrder(sibling.id, sibling.order, prisma)
@@ -38,7 +38,7 @@ async function fixOrderAfterDeletion(parentId: number | null, deletedTaskOrder: 
   }
 }
 
-async function findSiblings(parentId: number | null, prisma: PrismaClient) {
+async function findTasksWithParentId(parentId: number | null, prisma: PrismaClient) {
   return await prisma.task.findMany({
     where: {
       parentId

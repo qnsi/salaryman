@@ -56,7 +56,7 @@ function moveFocusDown(tasks: TaskType[], focusedTaskId: number, setFocusedTaskI
   setFocusedTaskId(nextFocused)
 }
 
-function moveFocusUp(tasks: TaskType[], focusedTaskId: number, setFocusedTaskId: Function) {
+export function moveFocusUp(tasks: TaskType[], focusedTaskId: number, setFocusedTaskId: Function) {
   var prevFocused = 0
   if (focusedTaskId === 0) {
     const prevFocusedTask = tasks[tasks.length - 1]
