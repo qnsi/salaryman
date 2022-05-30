@@ -30,6 +30,7 @@ function handleKeysWhenBulletFocused(event: KeyboardEvent, tasks: TaskType[], fo
       moveFocusUp(tasks, focusedTaskId, setFocusedTaskId)
     } else if (event.key == "s") {
       if (focusedTaskId !== 0) {
+        event.preventDefault()
         setInputFocused(true)
         openSubtaskForm(focusedTaskId, setAddingSubtaskId)
       }
