@@ -47,7 +47,7 @@ export default function TaskView() {
 
   async function deleteTask(id: number) {
     const response = await deleteTaskFromBackend(id)
-    handleDeleteResponse(response, id, setTasks)
+    handleDeleteResponse(response, id, tasks, setTasks)
     moveFocusUp(tasks, id, setFocusedTaskId)
   }
 
