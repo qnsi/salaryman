@@ -15,7 +15,6 @@ export default function useDeleteKeyboardShortcut(deleteProgress: number, setDel
   }, [deleteProgress])
 
   const handleKeyDown = React.useCallback((event: KeyboardEvent) => {
-    console.log("key pressed")
     if (event.key === "d") {
       startCounter()
     }
