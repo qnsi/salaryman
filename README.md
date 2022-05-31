@@ -56,6 +56,8 @@ run `PWDEBUG=1 npx playwright test tests/unreadMessages `
 
 - adding new tasks using form at the bottom
 - moving focus between tasks ("j" and "k")
+- reordering task (shift+j or shift+k)
 - adding subtasks (hover over task and add using form) (keyboard shortcut: "s" when task is focused)
-- deleting tasks (keyboard shortcut: hold "d" when task is focused)
+- deleting tasks (keyboard shortcut: hold "r" when task is focused)
+- marking task as done (hold "d")
 - primitive hiding tasks by clicking minus next to a task (doesnt work right now with nested collapsed) (keyboard shortcut "h")
