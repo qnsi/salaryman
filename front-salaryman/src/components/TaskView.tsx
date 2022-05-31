@@ -4,7 +4,6 @@ import { getTasks, handleGetTasksResponse } from "../controllers/getTasks";
 import { handleNewTaskResponse, saveTask } from "../controllers/saveTask";
 import { markAsDoneInBackend, updateTaskInBackend, updateTaskIsDone } from "../controllers/updateTask";
 import useHoldKeyboardShortcut from "../helpers/useHoldKeyboardShortcut";
-import useDeleteKeyboardShortcut from "../helpers/useHoldKeyboardShortcut";
 import useKeyboardShortcuts, { moveFocusUp } from "../helpers/keyboardShortcuts";
 import { moveTaskDown, moveTaskUp } from "../helpers/moveTasks";
 import NewTaskForm from "./NewTaskForm";

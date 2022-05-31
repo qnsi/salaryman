@@ -61,7 +61,7 @@ export default function useHoldKeyboardShortcut(deleteProgress: number, setDelet
     }
   };
 
-  React.useEffect(addAndRemoveKeyboardListeners, [])
+  React.useEffect(addAndRemoveKeyboardListeners, [handleKeyDown, handleKeyUp])
 
   function addAndRemoveKeyboardListeners() {
     document.addEventListener("keydown", handleKeyDown)
