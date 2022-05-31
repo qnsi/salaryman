@@ -34,9 +34,9 @@ export default function Task(props: { task: TaskType, setAddingSubtaskId: Functi
      onMouseLeave={()=>props.setFocusedTaskId(0)}
      className="task-container"
     >
-      {intendationArray.map(() => {
+      {intendationArray.map((value) => {
         return (
-          <div className="task-line-container">
+          <div key={value} className="task-line-container">
             <div className="task-line-border"></div>
           </div>
         )

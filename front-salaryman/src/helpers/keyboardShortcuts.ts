@@ -3,11 +3,11 @@ import { TaskType } from "../components/TaskView"
 
 export default function useKeyboardShortcuts(tasks: TaskType[], focusedTaskId: number, setFocusedTaskId: Function,
                                              setAddingSubtaskId: Function, setInputFocused: Function, inputFocused: boolean,
-                                             collapseTask: Function) {
+                                             collapseTask: Function, moveTaskUp: Function, moveTaskDown: Function) {
 
   const handleKeyPress = React.useCallback((event: KeyboardEvent) => {
     handleKeysWhenBulletFocused(event, tasks, focusedTaskId, setFocusedTaskId, setAddingSubtaskId, setInputFocused, inputFocused,
-                                collapseTask)
+                                collapseTask, moveTaskDown, moveTaskUp)
   }, [tasks, focusedTaskId, inputFocused])
 
   React.useEffect(addAndRemoveKeyboardListeners, [handleKeyPress])
@@ -22,12 +22,16 @@ export default function useKeyboardShortcuts(tasks: TaskType[], focusedTaskId: n
 
 function handleKeysWhenBulletFocused(event: KeyboardEvent, tasks: TaskType[], focusedTaskId: number, setFocusedTaskId: Function,
                                      setAddingSubtaskId: Function, setInputFocused: Function, inputFocused: boolean,
-                                     collapseTask: Function) {
+                                     collapseTask: Function, moveTaskDown: Function, moveTaskUp: Function) {
   if (!inputFocused) {
     if (event.key === "j") {
       moveFocusDown(tasks, focusedTaskId, setFocusedTaskId)
+    } else if (event.key === "J"){ 
+      moveTaskDown(focusedTaskId)
     } else if (event.key === "k") {
       moveFocusUp(tasks, focusedTaskId, setFocusedTaskId)
+    } else if (event.key === "K") {
+      moveTaskUp(focusedTaskId)
     } else if (event.key == "s") {
       if (focusedTaskId !== 0) {
         event.preventDefault()

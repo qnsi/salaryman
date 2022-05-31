@@ -5,6 +5,7 @@ import { handleNewTaskResponse, saveTask } from "../controllers/saveTask";
 import { updateTaskInBackend } from "../controllers/updateTask";
 import useDeleteKeyboardShortcut from "../helpers/deleteKeyboardShortcut";
 import useKeyboardShortcuts, { moveFocusUp } from "../helpers/keyboardShortcuts";
+import { moveTaskDown, moveTaskUp } from "../helpers/moveTasks";
 import NewTaskForm from "./NewTaskForm";
 import Task from "./Task";
 
@@ -36,8 +37,17 @@ export default function TaskView() {
     })
   }, [])
 
-  useKeyboardShortcuts(tasks, focusedTaskId, setFocusedTaskId, setAddingSubtaskId, setInputFocused, inputFocused, collapseTask)
+  useKeyboardShortcuts(tasks, focusedTaskId, setFocusedTaskId, setAddingSubtaskId, setInputFocused, inputFocused, collapseTask,
+                       _moveTaskUp, _moveTaskDown)
   useDeleteKeyboardShortcut(deleteProgress, setDeleteProgress, deleteTask, focusedTaskId)
+
+  function _moveTaskUp(focusedTaskId: number) {
+    moveTaskUp(focusedTaskId, tasks, setTasks)
+  }
+
+  function _moveTaskDown(focusedTaskId: number) {
+    moveTaskDown(focusedTaskId, tasks, setTasks)
+  }
 
   async function addNewTask(value: string, parentId: number) {
     setAddingSubtaskId(0)
@@ -69,7 +79,7 @@ export default function TaskView() {
 
                         />
     if (task.hidden) {
-      return <></>
+      return <div key={task.id}></div>
     }
     if (addingSubtaskId == task.id) {
       return (
