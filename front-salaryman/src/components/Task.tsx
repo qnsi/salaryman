@@ -3,7 +3,7 @@ import { TaskType } from "./TaskView";
 
 export default function Task(props: { task: TaskType, setAddingSubtaskId: Function, deleteTask: Function,
                                       collapseTask: Function, setFocusedTaskId: Function, focusedTaskId: number
-                                      deleteProgress: number}) {
+                                      deleteProgress: number, markAsDone: Function, doneProgress: number}) {
   var collapsedCharacter = "- "
   if (props.task.collapsed) {
     collapsedCharacter = "+ "
@@ -15,16 +15,25 @@ export default function Task(props: { task: TaskType, setAddingSubtaskId: Functi
     deleteText = `${props.deleteProgress}%`
   }
 
+  var markAsDoneText = "Done"
+  if (props.doneProgress > 0) {
+    markAsDoneText = `${props.doneProgress}%`
+  }
+
   var taskClasses = "task"
   var buttons = <></>
   if (props.focusedTaskId === props.task.id) {
     buttons = (
       <div className="task-buttons">
+        <button onClick={() => {props.markAsDone(props.task.id)}}>{markAsDoneText}</button>
         <button onClick={() => {props.setAddingSubtaskId(props.task.id)}}>Add Subtask</button>
         <button onClick={() => {props.deleteTask(props.task.id)}}>{deleteText}</button>
       </div>
     )
     taskClasses = "task task-focused"
+  }
+  if (props.task.isDone) {
+    taskClasses += " task-is-done"
   }
 
 
