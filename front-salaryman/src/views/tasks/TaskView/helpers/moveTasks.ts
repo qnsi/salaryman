@@ -1,4 +1,4 @@
-import { TaskType } from "../components/TaskView"
+import { TaskType } from "../../../../types/TaskType"
 
   export function moveTaskDown(taskId: number, tasks: TaskType[], setTasks: Function) {
     const focusedTask = tasks.find(task => task.id === taskId) as TaskType

@@ -1,9 +1,7 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-import Navbar from './components/Navbar';
-import Sidebar from './components/Sidebar';
-import TaskView from './components/TaskView';
+import Navbar from './views/Navbar';
+import Sidebar from './views/Sidebar';
+import TaskView from './views/tasks/TaskView/TaskView';
 
 function App() {
   return (
