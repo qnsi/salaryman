@@ -1,5 +1,5 @@
 import React from "react";
-import { TaskType } from "./TaskView";
+import { TaskType } from "../../types/TaskType";
 
 export default function Task(props: { task: TaskType, setAddingSubtaskId: Function, deleteTask: Function,
                                       collapseTask: Function, setFocusedTaskId: Function, focusedTaskId: number

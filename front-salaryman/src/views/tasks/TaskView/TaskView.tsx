@@ -1,27 +1,14 @@
 import React from "react";
-import { deleteTaskFromBackend, handleDeleteResponse } from "../controllers/deleteTask";
-import { getTasks, handleGetTasksResponse } from "../controllers/getTasks";
-import { handleNewTaskResponse, saveTask } from "../controllers/saveTask";
-import { markAsDoneInBackend, updateTaskInBackend, updateTaskIsDone } from "../controllers/updateTask";
-import useHoldKeyboardShortcut from "../helpers/useHoldKeyboardShortcut";
-import useKeyboardShortcuts, { moveFocusUp } from "../helpers/keyboardShortcuts";
-import { moveTaskDown, moveTaskUp } from "../helpers/moveTasks";
-import NewTaskForm from "./NewTaskForm";
-import Task from "./Task";
-
-export type TaskType = {
-  id: number,
-  isDone: boolean, 
-  order: number,
-  intendation: number,
-  parentId: number,
-  doneChildren: number,
-  text: string,
-  createdAt: string,
-  updatedAt: string,
-  collapsed: boolean,
-  hidden: boolean,
-}
+import { deleteTaskFromBackend, handleDeleteResponse } from "../../../api/deleteTask";
+import { getTasks, handleGetTasksResponse } from "../../../api/getTasks";
+import { handleNewTaskResponse, saveTask } from "../../../api/saveTask";
+import { markAsDoneInBackend, updateTaskInBackend, updateTaskIsDone } from "../../../api/updateTask";
+import useHoldKeyboardShortcuts from "./hooks/useHoldKeyboardShortcuts";
+import useKeyboardShortcuts, { moveFocusUp } from "./hooks/useKeyboardShortcuts";
+import { moveTaskDown, moveTaskUp } from "./helpers/moveTasks";
+import NewTaskForm from "../NewTaskForm";
+import Task from "../Task";
+import { TaskType } from "../../../types/TaskType";
 
 var initTasks: TaskType[] = []
 
@@ -41,7 +28,7 @@ export default function TaskView() {
 
   useKeyboardShortcuts(tasks, focusedTaskId, setFocusedTaskId, setAddingSubtaskId, setInputFocused, inputFocused, collapseTask,
                        _moveTaskUp, _moveTaskDown)
-  useHoldKeyboardShortcut(deleteProgress, setDeleteProgress, deleteTask, focusedTaskId,
+  useHoldKeyboardShortcuts(deleteProgress, setDeleteProgress, deleteTask, focusedTaskId,
                           doneProgress, setDoneProgress, markAsDone, inputFocused)
 
   function _moveTaskUp(focusedTaskId: number) {

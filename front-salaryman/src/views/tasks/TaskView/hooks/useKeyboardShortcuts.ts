@@ -1,5 +1,5 @@
 import React from "react"
-import { TaskType } from "../components/TaskView"
+import { TaskType } from "../../../../types/TaskType"
 
 export default function useKeyboardShortcuts(tasks: TaskType[], focusedTaskId: number, setFocusedTaskId: Function,
                                              setAddingSubtaskId: Function, setInputFocused: Function, inputFocused: boolean,

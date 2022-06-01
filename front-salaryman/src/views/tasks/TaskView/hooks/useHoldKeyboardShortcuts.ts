@@ -1,6 +1,7 @@
 import React from "react"
+import { TaskType } from "../../../../types/TaskType";
 
-export default function useHoldKeyboardShortcut(deleteProgress: number, setDeleteProgress: Function,
+export default function useHoldKeyboardShortcuts(deleteProgress: number, setDeleteProgress: Function,
                                                 deleteTask: Function, focusedTaskId: number,
                                                 doneProgress: number, setDoneProgress: Function,
                                                 markAsDone: Function, inputFocused: boolean) {
