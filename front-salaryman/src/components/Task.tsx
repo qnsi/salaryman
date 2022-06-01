@@ -36,6 +36,11 @@ export default function Task(props: { task: TaskType, setAddingSubtaskId: Functi
     taskClasses += " task-is-done"
   }
 
+  var childrenDoneBadge = ""
+  if (props.task.doneChildren > 0) {
+    childrenDoneBadge = `(${props.task.doneChildren} subtasks done)`
+  }
+
 
   return (
     <div
@@ -52,7 +57,7 @@ export default function Task(props: { task: TaskType, setAddingSubtaskId: Functi
       })}
       <div className={taskClasses} key={props.task.id} >
         <span onClick={() => props.collapseTask(props.task)}>{collapsedCharacter}</span>
-        <span className="task-text">{props.task.text}</span>
+        <span className="task-text">{props.task.text} <span className="task-children-badge">{childrenDoneBadge}</span></span>
         <span className="task-spacer"></span>
         {buttons}
       </div>

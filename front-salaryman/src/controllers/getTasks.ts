@@ -32,7 +32,7 @@ export async function handleGetTasksResponse(response: getTasksResponse, setTask
 }
 
 function setInitialTasks(response: getTasksResponse, setTasks: Function) {
-  const tasks = prepareTasksWithIntendation(response.tasks)
+  const tasks = prepareTasksWithIntendationAndDoneChildren(response.tasks)
   const hiddenTasks = hidTaskThatShouldBeCollapsed(tasks)
   setTasks(hiddenTasks)
 }
@@ -41,31 +41,37 @@ function displayGetErrorIfResponseError(response: getTasksResponse) {
   console.log("NOT IMPLEMENTED! Error when communicating with the server")
 }
 
-function prepareTasksWithIntendation(tasks: TaskType[]) {
+function prepareTasksWithIntendationAndDoneChildren(tasks: TaskType[]) {
   tasks = tasks.sort((a,b) => a.order - b.order)
   var tasksSorted: TaskType[] = []
   for (const task of tasks) {
     if (task.parentId === null) {
       task.intendation = 0
-      const children = findTaskChildren(tasks, task.id, 0)
-      tasksSorted = tasksSorted.concat([task])
-      tasksSorted = tasksSorted.concat(children)
+      const [descendents, newTask] = findTaskChildren(tasks, task, 0)
+      tasksSorted = tasksSorted.concat([newTask])
+      tasksSorted = tasksSorted.concat(descendents)
     }
   }
   return tasksSorted
 }
 
-function findTaskChildren(tasks: TaskType[], parentId: number, intendation: number) {
-  var children = tasks.filter((task) => task.parentId === parentId)
+function findTaskChildren(tasks: TaskType[], parent: TaskType, intendation: number): [TaskType[], TaskType] {
+  var children = tasks.filter((task) => task.parentId === parent.id)
   children = children.sort((a,b) => a.order - b.order)
   var ordered: TaskType[] = []
+  var doneChildren = 0
   for (const child of children) {
-    child.intendation = intendation+1
-    ordered = ordered.concat([child])
-    const grandchildren = findTaskChildren(tasks, child.id, intendation+1)
-    ordered = ordered.concat(grandchildren)
+    if (child.isDone) {
+      doneChildren += 1
+    } else {
+      child.intendation = intendation+1
+      const [grandchildren, newChild] = findTaskChildren(tasks, child, intendation+1)
+      ordered = ordered.concat([newChild])
+      ordered = ordered.concat(grandchildren)
+    }
   }
-  return ordered
+  parent.doneChildren = doneChildren
+  return [ordered, parent]
 }
 
 function hidTaskThatShouldBeCollapsed(tasks: TaskType[]) {

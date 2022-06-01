@@ -14,7 +14,8 @@ export type TaskType = {
   isDone: boolean, 
   order: number,
   intendation: number,
-  parentId: number
+  parentId: number,
+  doneChildren: number,
   text: string,
   createdAt: string,
   updatedAt: string,
@@ -71,6 +72,7 @@ export default function TaskView() {
     } else {
       console.log("ERROR in markAsDone")
     }
+    moveFocusUp(tasks, id, setFocusedTaskId)
   }
 
   return (

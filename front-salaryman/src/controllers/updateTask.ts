@@ -48,13 +48,16 @@ export function markAsDoneInBackend(id: number, isDone: boolean): Promise<{statu
 
 export function updateTaskIsDone(id: number, setTasks: Function, isDone: boolean) {
   setTasks((state: TaskType[]) => {
-    return state.map(task => {
-      if (task.id === id) {
-        task.isDone = isDone
-        return task
-      } else {
-        return task
+    const doneTask = state.find(task => task.id == id) as TaskType
+    const parent = state.find(stateTask => stateTask.id == doneTask.parentId) as TaskType
+    var initTasks: TaskType[] = []
+    return state.reduce((result, task) => {
+      if (task.id === parent.id) {
+        result.push({...task, doneChildren: task.doneChildren + 1})
+      } else if (task.id !== id) {
+        result.push(task)
       }
-    })
+      return result
+    }, initTasks)
   })
 }
