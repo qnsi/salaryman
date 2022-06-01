@@ -2,7 +2,7 @@ import React from "react";
 import { deleteTaskFromBackend, handleDeleteResponse } from "../../../api/deleteTask";
 import { getTasks, handleGetTasksResponse } from "../../../api/getTasks";
 import { handleNewTaskResponse, saveTask } from "../../../api/saveTask";
-import { markAsDoneInBackend, updateTaskInBackend, updateTaskIsDone } from "../../../api/updateTask";
+import { markTaskAsDoneInBackend, markTaskAsCollapsed, updateTaskIsDone } from "../../../api/updateTask";
 import useHoldKeyboardShortcuts from "./hooks/useHoldKeyboardShortcuts";
 import useKeyboardShortcuts, { moveFocusUp } from "./hooks/useKeyboardShortcuts";
 import { moveTaskDown, moveTaskUp } from "./helpers/moveTasks";
@@ -22,7 +22,7 @@ export default function TaskView() {
 
   React.useEffect(() => {
     getTasks().then((response) => {
-      handleGetTasksResponse(response, setTasks)
+      handleGetTasksResponse(response.data, setTasks)
     })
   }, [])
 
@@ -42,19 +42,19 @@ export default function TaskView() {
   async function addNewTask(value: string, parentId: number) {
     setAddingSubtaskId(0)
     const response = await saveTask(value, 1, parentId)
-    handleNewTaskResponse(response, setTasks)
+    handleNewTaskResponse(response.data, setTasks)
   }
 
   async function deleteTask(id: number) {
     const response = await deleteTaskFromBackend(id)
-    handleDeleteResponse(response, id, tasks, setTasks)
+    handleDeleteResponse(response.data, id, tasks, setTasks)
     moveFocusUp(tasks, id, setFocusedTaskId)
   }
 
   async function markAsDone(id: number) {
     const task = tasks.find(stateTask => stateTask.id == id) as TaskType
-    const response = await markAsDoneInBackend(id, !task.isDone)
-    if (response.status === "ok") {
+    const response = await markTaskAsDoneInBackend(id, !task.isDone)
+    if (response.data.status === "ok") {
       updateTaskIsDone(id, setTasks, !task.isDone)
     } else {
       console.log("ERROR in markAsDone")
@@ -96,7 +96,7 @@ export default function TaskView() {
 
   async function collapseTask(task: TaskType) {
     collapseInState(task)
-    const resp = await updateTaskInBackend(task.id, !task.collapsed)
+    const resp = await markTaskAsCollapsed(task.id, !task.collapsed)
   }
 
   function collapseInState(task: TaskType) {
