@@ -2,7 +2,7 @@ import React from "react"
 import { TaskType } from "../../../../types/TaskType";
 
 export default function useHoldKeyboardShortcuts(deleteProgress: number, setDeleteProgress: Function,
-                                                deleteTask: Function, focusedTaskId: number,
+                                                _deleteTask: Function, focusedTaskId: number,
                                                 doneProgress: number, setDoneProgress: Function,
                                                 markAsDone: Function, inputFocused: boolean) {
   const deleteCounterRef = React.useRef<NodeJS.Timer | null>(null);
@@ -17,7 +17,7 @@ export default function useHoldKeyboardShortcuts(deleteProgress: number, setDele
 
   React.useEffect(() => {
     if (deleteProgress > 100) {
-      deleteTask(focusedTaskId)
+      _deleteTask(focusedTaskId)
       stopCounter(deleteCounterRef, setDeleteProgress)
     }
   }, [deleteProgress])

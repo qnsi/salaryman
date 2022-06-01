@@ -1,14 +1,23 @@
 import React from "react";
-import { deleteTaskFromBackend, handleDeleteResponse } from "../../../api/deleteTask";
-import { getTasks, handleGetTasksResponse } from "../../../api/getTasks";
-import { handleNewTaskResponse, saveTask } from "../../../api/saveTask";
-import { markTaskAsDoneInBackend, markTaskAsCollapsed, updateTaskIsDone } from "../../../api/updateTask";
+
+import { getTasks } from "../../../api/getTasks";
+import { handleGetTasksResponse } from "./helpers/apiHelpers/getTasks";
+
+import { saveTask } from "../../../api/saveTask";
+import { handleNewTaskResponse } from "./helpers/apiHelpers/saveTask";
+
+import { markTaskAsDoneInBackend, markTaskAsCollapsed } from "../../../api/updateTask";
+import { updateTaskIsDone } from "./helpers/apiHelpers/updateTask";
+
 import useHoldKeyboardShortcuts from "./hooks/useHoldKeyboardShortcuts";
 import useKeyboardShortcuts, { moveFocusUp } from "./hooks/useKeyboardShortcuts";
+
 import { moveTaskDown, moveTaskUp } from "./helpers/moveTasks";
+
 import NewTaskForm from "../NewTaskForm";
 import Task from "../Task";
 import { TaskType } from "../../../types/TaskType";
+import { deleteTask } from "./helpers/apiHelpers/deleteTask";
 
 var initTasks: TaskType[] = []
 
@@ -28,8 +37,12 @@ export default function TaskView() {
 
   useKeyboardShortcuts(tasks, focusedTaskId, setFocusedTaskId, setAddingSubtaskId, setInputFocused, inputFocused, collapseTask,
                        _moveTaskUp, _moveTaskDown)
-  useHoldKeyboardShortcuts(deleteProgress, setDeleteProgress, deleteTask, focusedTaskId,
+  useHoldKeyboardShortcuts(deleteProgress, setDeleteProgress, _deleteTask, focusedTaskId,
                           doneProgress, setDoneProgress, markAsDone, inputFocused)
+
+  function _deleteTask(focusedTaskId: number) {
+    deleteTask(focusedTaskId, tasks, setTasks, setFocusedTaskId)
+  }
 
   function _moveTaskUp(focusedTaskId: number) {
     moveTaskUp(focusedTaskId, tasks, setTasks)
@@ -45,11 +58,6 @@ export default function TaskView() {
     handleNewTaskResponse(response.data, setTasks)
   }
 
-  async function deleteTask(id: number) {
-    const response = await deleteTaskFromBackend(id)
-    handleDeleteResponse(response.data, id, tasks, setTasks)
-    moveFocusUp(tasks, id, setFocusedTaskId)
-  }
 
   async function markAsDone(id: number) {
     const task = tasks.find(stateTask => stateTask.id == id) as TaskType
@@ -75,7 +83,7 @@ export default function TaskView() {
 
   function constructTask(task: TaskType) {
     const taskElement = <Task key={task.id} task={task} setAddingSubtaskId={setAddingSubtaskId}
-                              deleteTask={deleteTask} deleteProgress={deleteProgress} collapseTask={collapseTask} 
+                              deleteTask={_deleteTask} deleteProgress={deleteProgress} collapseTask={collapseTask} 
                               focusedTaskId={focusedTaskId} setFocusedTaskId={setFocusedTaskId}
                               markAsDone={markAsDone} doneProgress={doneProgress}
                         />
