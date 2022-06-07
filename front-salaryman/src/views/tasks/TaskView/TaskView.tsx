@@ -1,13 +1,12 @@
 import React from "react";
 
-import { getTasks } from "../../../api/getTasks";
-import { handleGetTasksResponse } from "./helpers/apiHelpers/getTasks";
+import { useGetTasks } from "./hooks/apiHooks/useGetTasks";
 
 import { saveTask } from "../../../api/saveTask";
-import { handleNewTaskResponse } from "./helpers/apiHelpers/saveTask";
+import { handleNewTaskResponse } from "./hooks/apiHooks/saveTask";
 
 import { markTaskAsDoneInBackend, markTaskAsCollapsed } from "../../../api/updateTask";
-import { updateTaskIsDone } from "./helpers/apiHelpers/updateTask";
+import { updateTaskIsDone } from "./hooks/apiHooks/updateTask";
 
 import useHoldKeyboardShortcuts from "./hooks/useHoldKeyboardShortcuts";
 import useKeyboardShortcuts, { moveFocusUp } from "./hooks/useKeyboardShortcuts";
@@ -17,22 +16,24 @@ import { moveTaskDown, moveTaskUp } from "./helpers/moveTasks";
 import NewTaskForm from "../NewTaskForm";
 import Task from "../Task";
 import { TaskType } from "../../../types/TaskType";
-import { deleteTask } from "./helpers/apiHelpers/deleteTask";
+import { deleteTask } from "./hooks/apiHooks/deleteTask";
 
 var initTasks: TaskType[] = []
 
 export default function TaskView() {
   const [tasks, setTasks] = React.useState(initTasks)
   const [addingSubtaskId, setAddingSubtaskId] = React.useState(0)
+
   const [focusedTaskId, setFocusedTaskId] = React.useState(0)
   const [inputFocused, setInputFocused] = React.useState(true)
+
   const [deleteProgress, setDeleteProgress] = React.useState(0)
   const [doneProgress, setDoneProgress] = React.useState(0)
 
+  const getTasks = useGetTasks(setTasks)
+
   React.useEffect(() => {
-    getTasks().then((response) => {
-      handleGetTasksResponse(response.data, setTasks)
-    })
+    getTasks()
   }, [])
 
   useKeyboardShortcuts(tasks, focusedTaskId, setFocusedTaskId, setAddingSubtaskId, setInputFocused, inputFocused, collapseTask,

@@ -1,6 +1,6 @@
 import { deleteTaskFromBackend } from "../../../../../api/deleteTask"
 import { TaskType } from "../../../../../types/TaskType"
-import { moveFocusUp } from "../../hooks/useKeyboardShortcuts"
+import { moveFocusUp } from "../useKeyboardShortcuts"
 
 export async function deleteTask(id: number, tasks: TaskType[], setTasks: Function, setFocusedTaskId: Function) {
   const response = await deleteTaskFromBackend(id)

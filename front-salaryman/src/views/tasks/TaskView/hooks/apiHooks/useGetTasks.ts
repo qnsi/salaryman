@@ -1,7 +1,16 @@
+import { getTasksFromBackend } from "../../../../../api/getTasks"
 import { TaskType } from "../../../../../types/TaskType"
 
+export function useGetTasks(setTasks: Function): Function {
+  return () => {
+    getTasksFromBackend().then((response) => {
+      handleGetTasksResponse(response.data, setTasks)
+    });
+  }
+}
+
 type getTasksResponse = { status: string, tasks: TaskType[] }
-export async function handleGetTasksResponse(response: getTasksResponse, setTasks: Function) {
+async function handleGetTasksResponse(response: getTasksResponse, setTasks: Function) {
   if (response.status === "ok") {
     setInitialTasks(response.tasks, setTasks)
   } else {
