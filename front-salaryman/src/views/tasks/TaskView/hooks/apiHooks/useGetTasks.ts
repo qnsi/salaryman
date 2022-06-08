@@ -1,12 +1,19 @@
+import React from "react"
 import { getTasksFromBackend } from "../../../../../api/getTasks"
 import { TaskType } from "../../../../../types/TaskType"
 
-export function useGetTasks(setTasks: Function): Function {
-  return () => {
+var initTasks: TaskType[] = []
+
+export function useGetTasksFromBackendAndSet(): [TaskType[], Function] {
+  const [tasks, setTasks] = React.useState(initTasks)
+
+  React.useEffect(() => {
     getTasksFromBackend().then((response) => {
       handleGetTasksResponse(response.data, setTasks)
-    });
-  }
+    })
+  }, [])
+
+  return [tasks, setTasks]
 }
 
 type getTasksResponse = { status: string, tasks: TaskType[] }
