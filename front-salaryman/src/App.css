@@ -29,6 +29,14 @@
   flex-direction: column;
 }
 
+.thingview {
+  flex-basis: 90%; 
+  flex-grow: 1;
+  background-color: #f2f4ef;
+  display: flex;
+  flex-direction: column;
+}
+
 .tasks {
   margin-left: 1%;
   margin-top: 1%;

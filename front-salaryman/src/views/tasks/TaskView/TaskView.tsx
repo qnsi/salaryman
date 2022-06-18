@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useGetTasks } from "./hooks/apiHooks/useGetTasks";
+import { useGetTasksFromBackendAndSet } from "./hooks/apiHooks/useGetTasks";
 
 import { saveTask } from "../../../api/saveTask";
 import { handleNewTaskResponse } from "./hooks/apiHooks/saveTask";
@@ -18,10 +18,8 @@ import Task from "../Task";
 import { TaskType } from "../../../types/TaskType";
 import { deleteTask } from "./hooks/apiHooks/deleteTask";
 
-var initTasks: TaskType[] = []
 
 export default function TaskView() {
-  const [tasks, setTasks] = React.useState(initTasks)
   const [addingSubtaskId, setAddingSubtaskId] = React.useState(0)
 
   const [focusedTaskId, setFocusedTaskId] = React.useState(0)
@@ -30,11 +28,7 @@ export default function TaskView() {
   const [deleteProgress, setDeleteProgress] = React.useState(0)
   const [doneProgress, setDoneProgress] = React.useState(0)
 
-  const getTasks = useGetTasks(setTasks)
-
-  React.useEffect(() => {
-    getTasks()
-  }, [])
+  const [tasks, setTasks] = useGetTasksFromBackendAndSet()
 
   useKeyboardShortcuts(tasks, focusedTaskId, setFocusedTaskId, setAddingSubtaskId, setInputFocused, inputFocused, collapseTask,
                        _moveTaskUp, _moveTaskDown)
@@ -99,7 +93,7 @@ export default function TaskView() {
         </div>
       )
     } else {
-      return taskElement
+      return <div key={task.id}>{taskElement}</div>
     }
   }
 
