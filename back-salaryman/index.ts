@@ -41,7 +41,9 @@ app.get("/categories", (req: Request, res: Response) => {
 
 // hacky way to clear test_db between tests. Probably would need docker to run tests in real isolation
 app.get("/dangerous/only_in_dev/clear_database", async (req: Request, res: Response) => {
+  console.log("Clearing the db")
   await prisma.task.deleteMany({})
+  await prisma.category.deleteMany({})
   // const user = await createSeedUser("qnsi")
   // await createSeedDocumentWithBullet("main", user.id)
   res.json({status: "ok"})

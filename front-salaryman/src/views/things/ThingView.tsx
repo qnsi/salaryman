@@ -11,7 +11,7 @@ export function ThingView() {
   async function createNewCategory(e: React.FormEvent) {
     e.preventDefault()
     const resp = await saveCategory(categoryName)
-    handleNewCategoryResponse(resp.data)
+    handleNewCategoryResponse(resp.data, setCategories)
   }
   return (
     <div className="thingview">
