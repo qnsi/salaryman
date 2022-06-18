@@ -1,8 +1,10 @@
 import { CategoryType } from "../../../types/CategoryType"
 
-export function handleNewCategoryResponse(response: {status: string, category: CategoryType}) {
+export function handleNewCategoryResponse(response: {status: string, category: CategoryType}, setCategories: Function) {
   if (response.status === "ok") {
-    console.log("OK")
+    setCategories((categories: CategoryType[]) => {
+      return categories.concat([response.category])
+    })
   } else {
     displayErrorIfResponseError(response)
   }

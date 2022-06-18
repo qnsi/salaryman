@@ -29,6 +29,7 @@ model Category {
   updatedAt DateTime @updatedAt
   name   String
   fields Field[]
+  things Thing[]
 }
 
 model Field {
@@ -39,4 +40,13 @@ model Field {
   categoryId Int
   name   String
   type String
+}
+
+model Thing {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  category Category @relation(fields: [categoryId], references: [id])
+  categoryId Int
+  value String
 }
