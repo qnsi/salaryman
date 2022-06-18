@@ -1,10 +1,12 @@
 import express, { Express, Request, Response } from "express"
 import cors from "cors"
 import { PrismaClient } from '@prisma/client'
-import { saveTask } from "./controllers/saveTaskController"
-import { getTasks } from "./controllers/getTasksController"
-import deleteTask from "./controllers/deleteTasksController"
-import { updateTask } from "./controllers/updateTaskController"
+import { saveTask } from "./controllers/tasks/saveTaskController"
+import { getTasks } from "./controllers/tasks/getTasksController"
+import deleteTask from "./controllers/tasks/deleteTasksController"
+import { updateTask } from "./controllers/tasks/updateTaskController"
+import { saveCategory } from "./controllers/saveCategoryController"
+import { getCategories } from "./controllers/getCategories"
 
 const prisma = new PrismaClient()
 
@@ -27,6 +29,14 @@ app.post("/tasks/delete", (req: Request, res: Response) => {
 
 app.put("/tasks", (req: Request, res: Response) => {
   updateTask(req, res, prisma)
+})
+
+app.post("/category/new", (req: Request, res: Response) => {
+  saveCategory(req, res, prisma)
+})
+
+app.get("/categories", (req: Request, res: Response) => {
+  getCategories(req, res, prisma)
 })
 
 // hacky way to clear test_db between tests. Probably would need docker to run tests in real isolation
