@@ -34,6 +34,7 @@ export default function NewTaskForm(props: {addNewTask: Function, parentId: numb
     <div className="tasks-form">
       <form onSubmit={handleSubmit}>
         <input 
+            className="newTaskInput"
             ref={inputRef}
             value={value}
             onChange={(e) => setValue(e.currentTarget.value)} 
