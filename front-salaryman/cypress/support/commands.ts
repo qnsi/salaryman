@@ -12,6 +12,9 @@
 //
 // -- This is a parent command --
 // Cypress.Commands.add('login', (email, password) => { ... })
+Cypress.Commands.add('prepareDb', () => {
+  cy.request('GET', 'localhost:3001/dangerous/only_in_dev/clear_database')
+})
 //
 //
 // -- This is a child command --
