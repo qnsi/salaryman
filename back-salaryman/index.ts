@@ -15,7 +15,7 @@ const PORT = 3001
 const app = express()
 app.use(cors())
 app.use(express.json())
-app.use(express.static(path.resolve(__dirname, "../front-salaryman/build")));
+app.use(express.static(path.resolve(__dirname, "./../front-salaryman/build")));
 
 app.get("/tasks", (req: Request, res: Response) => {
   getTasks(req, res, prisma)
@@ -50,6 +50,10 @@ app.get("/dangerous/only_in_dev/clear_database", async (req: Request, res: Respo
   // await createSeedDocumentWithBullet("main", user.id)
   res.json({status: "ok"})
 })
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname+'./../front-salaryman/build/index.html'));
+});
 
 app.listen(PORT, async () => {
   // const user = await createSeedUser("qnsi")
