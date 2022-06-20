@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npx ts-node ./back-salaryman/index.ts",
+    "start": "node ./back-salaryman/dist/index.js",
+    "build": "cd back-salaryman && npm install && tsc --outDir dist",
     "heroku-postbuild": "cd front-salaryman && npm install && npm run build"
   },
   "repository": {
@@ -19,7 +20,8 @@
   },
   "homepage": "https://github.com/qnsi/nabu-chat#readme",
   "devDependencies": {
-    "@playwright/test": "^1.21.1"
+    "@playwright/test": "^1.21.1",
+    "typescript": "^4.7.4"
   },
   "dependencies": {
     "@cypress/instrument-cra": "^1.4.0"
