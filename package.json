@@ -17,5 +17,8 @@
   "homepage": "https://github.com/qnsi/nabu-chat#readme",
   "devDependencies": {
     "@playwright/test": "^1.21.1"
+  },
+  "dependencies": {
+    "@cypress/instrument-cra": "^1.4.0"
   }
 }

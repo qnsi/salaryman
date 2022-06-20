@@ -8,7 +8,8 @@ import { ThingView } from './views/things/ThingView';
 
 export enum MainView {
   Tasks,
-  Things
+  Things,
+  NoContent
 }
 
 function App() {
@@ -19,6 +20,8 @@ function App() {
   var viewComponent = <TaskView />
   if (view === MainView.Things) {
     viewComponent = <ThingView />
+  } else if (view === MainView.NoContent) {
+    viewComponent = <div>404</div>
   }
   return (
     <div className="App">

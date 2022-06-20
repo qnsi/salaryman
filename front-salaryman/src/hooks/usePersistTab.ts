@@ -9,6 +9,8 @@ export function usePersistTab(setView: Function) {
       setView(MainView.Tasks)
     } else if (tab === "things") {
       setView(MainView.Things)
+    } else {
+      setView(MainView.NoContent)
     }
   }, [])
 }
