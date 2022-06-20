@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "start": "npx ts-node ./back-salaryman/index.ts",
+    "heroku-postbuild": "cd front-salaryman && npm install && npm run build"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/qnsi/nabu-chat.git"
@@ -17,5 +20,8 @@
   "homepage": "https://github.com/qnsi/nabu-chat#readme",
   "devDependencies": {
     "@playwright/test": "^1.21.1"
+  },
+  "dependencies": {
+    "@cypress/instrument-cra": "^1.4.0"
   }
 }
