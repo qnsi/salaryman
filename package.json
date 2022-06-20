@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node ./back-salaryman/dist/index.js",
-    "build": "cd back-salaryman && npm install && tsc --outDir dist",
-    "heroku-postbuild": "cd front-salaryman && npm install && npm run build"
+    "build": "cd back-salaryman && npm install && tsc --outDir dist && cd ../front-salaryman && npm install && npm run build"
   },
   "repository": {
     "type": "git",
