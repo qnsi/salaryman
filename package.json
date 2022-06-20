@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "start": "npx ts-node ./back-salaryman/index.ts",
+    "heroku-postbuild": "cd front-salaryman && npm install && npm run build"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/qnsi/nabu-chat.git"

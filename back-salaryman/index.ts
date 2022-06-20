@@ -7,6 +7,7 @@ import deleteTask from "./controllers/tasks/deleteTasksController"
 import { updateTask } from "./controllers/tasks/updateTaskController"
 import { saveCategory } from "./controllers/saveCategoryController"
 import { getCategories } from "./controllers/getCategories"
+const path = require("path");
 
 const prisma = new PrismaClient()
 
@@ -14,6 +15,7 @@ const PORT = 3001
 const app = express()
 app.use(cors())
 app.use(express.json())
+app.use(express.static(path.resolve(__dirname, "../front-salaryman/build")));
 
 app.get("/tasks", (req: Request, res: Response) => {
   getTasks(req, res, prisma)
