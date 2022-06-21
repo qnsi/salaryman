@@ -33,6 +33,7 @@ function setInitialTasks(tasks: TaskType[], setTasks: Function) {
 
 function displayGetErrorIfResponseError(response: getTasksResponse) {
   console.log("NOT IMPLEMENTED! Error when communicating with the server")
+  console.log(response)
 }
 
 function prepareTasksWithIntendationAndDoneChildren(tasks: TaskType[]) {
