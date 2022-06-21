@@ -11,7 +11,7 @@ const path = require("path");
 
 const prisma = new PrismaClient()
 
-const PORT = 80
+const PORT = process.env.PORT || 3001
 const app = express()
 app.use(cors())
 app.use(express.json())
