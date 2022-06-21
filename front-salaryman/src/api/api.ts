@@ -1,8 +1,13 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from "axios"
 
+var baseURL = "https://qnsi-salaryman.herokuapp.com/"
+console.log("APPENV: " + process.env.REACT_APP_APP_ENV)
+if (process.env.REACT_APP_APP_ENV === "dev") {
+  var baseURL = "http://localhost:3001"
+}
 
 const axiosParams = {
-  baseURL: process.env.NODE_ENV || "http://localhost:3001"
+  baseURL
 }
 
 const axiosInstance = axios.create(axiosParams)

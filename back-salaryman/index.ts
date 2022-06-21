@@ -51,7 +51,7 @@ app.get("/dangerous/only_in_dev/clear_database", async (req: Request, res: Respo
   res.json({status: "ok"})
 })
 
-app.get('*', (req, res) => {
+app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname+'./../../front-salaryman/build/index.html'));
 });
 
