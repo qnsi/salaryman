@@ -7,6 +7,8 @@ import deleteTask from "./controllers/tasks/deleteTasksController"
 import { updateTask } from "./controllers/tasks/updateTaskController"
 import { saveCategory } from "./controllers/saveCategoryController"
 import { getCategories } from "./controllers/getCategories"
+import expressBasicAuth from "express-basic-auth"
+
 const path = require("path");
 
 const prisma = new PrismaClient()
@@ -15,6 +17,14 @@ const PORT = process.env.PORT || 3001
 const app = express()
 app.use(cors())
 app.use(express.json())
+app.use(expressBasicAuth({
+  users: {
+    "guest": process.env.GUEST_PASSWORD as string,
+    "arturkesik": process.env.ADMIN_PASSWORD as string
+  },
+  challenge: true
+}))
+
 app.use(express.static(path.resolve(__dirname, "./../../front-salaryman/build")));
 
 app.get("/tasks", (req: Request, res: Response) => {
