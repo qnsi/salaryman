@@ -1,1 +1,1 @@
-release: npx prisma migrate deploy
+release: cd back-salaryman && npx prisma migrate deploy
