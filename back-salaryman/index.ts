@@ -17,13 +17,16 @@ const PORT = process.env.PORT || 3001
 const app = express()
 app.use(cors())
 app.use(express.json())
-app.use(expressBasicAuth({
-  users: {
-    "guest": process.env.GUEST_PASSWORD as string,
-    "arturkesik": process.env.ADMIN_PASSWORD as string
-  },
-  challenge: true
-}))
+
+if (process.env.REACT_APP_APP_ENV === "production") {
+  app.use(expressBasicAuth({
+    users: {
+      "guest": process.env.GUEST_PASSWORD as string,
+      "arturkesik": process.env.ADMIN_PASSWORD as string
+    },
+    challenge: true
+  }))
+}
 
 app.use(express.static(path.resolve(__dirname, "./../../front-salaryman/build")));
 

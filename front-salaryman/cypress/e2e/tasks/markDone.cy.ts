@@ -30,6 +30,12 @@ describe("Marks task as done", () => {
       cy.visit("localhost:3000")
       cy.contains("Child task 1").trigger("mouseover")
       cy.contains("Done").click()
+
+      cy.get(".task-container").eq(0).contains("First task (1 subtasks done)")
+      cy.get(".task-container").eq(1).contains("Child task 2")
+      cy.get(".task-container").eq(2).contains("Second Task")
     });
   })
+
+  it("doesn't hide when done task is in main category")
 })
