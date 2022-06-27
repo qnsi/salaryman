@@ -11,7 +11,7 @@ describe("Deletes tasks", () => {
       cy.get("body").type("kkkk")
 
       cy.get('body').trigger('keydown', { key: "r"})
-      cy.wait(2500)
+      cy.wait(3000)
       cy.get('body').trigger('keyup', { key: "r" })
 
       cy.get(".task-container").eq(0).contains("Second Task")

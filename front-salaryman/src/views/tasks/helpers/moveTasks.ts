@@ -1,4 +1,4 @@
-import { TaskType } from "../../../../types/TaskType"
+import { TaskType } from "../../../types/TaskType"
 
   export function moveTaskDown(taskId: number, tasks: TaskType[], setTasks: Function) {
     const focusedTask = tasks.find(task => task.id === taskId) as TaskType

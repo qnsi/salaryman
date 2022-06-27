@@ -6,12 +6,12 @@ import { saveTask } from "../../../api/saveTask";
 import { handleNewTaskResponse } from "./hooks/apiHooks/saveTask";
 
 import { markTaskAsDoneInBackend, markTaskAsCollapsed } from "../../../api/updateTask";
-import { updateTaskIsDone } from "./hooks/apiHooks/updateTask";
+import { updateTaskIsDone } from "./hooks/updateTaskState";
 
 import useHoldKeyboardShortcuts from "./hooks/useHoldKeyboardShortcuts";
 import useKeyboardShortcuts, { moveFocusUp } from "./hooks/useKeyboardShortcuts";
 
-import { moveTaskDown, moveTaskUp } from "./helpers/moveTasks";
+import { moveTaskDown, moveTaskUp } from "../helpers/moveTasks";
 
 import NewTaskForm from "../NewTaskForm";
 import Task from "../Task";
