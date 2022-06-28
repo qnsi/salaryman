@@ -6,7 +6,7 @@ import { saveTask } from "../../../api/saveTask";
 import { handleNewTaskResponse } from "./hooks/apiHooks/saveTask";
 
 import { markTaskAsDoneInBackend, markTaskAsCollapsed } from "../../../api/updateTask";
-import { updateTaskIsDone } from "./hooks/updateTaskState";
+import { toggleCollapseInState, updateTaskIsDone } from "./hooks/updateTaskState";
 
 import useHoldKeyboardShortcuts from "./hooks/useHoldKeyboardShortcuts";
 import useKeyboardShortcuts, { moveFocusUp } from "./hooks/useKeyboardShortcuts";
@@ -98,35 +98,7 @@ export default function TaskView() {
   }
 
   async function collapseTask(task: TaskType) {
-    collapseInState(task)
+    toggleCollapseInState(task, tasks, setTasks)
     const resp = await markTaskAsCollapsed(task.id, !task.collapsed)
-  }
-
-  function collapseInState(task: TaskType) {
-    setTasks((state: TaskType[]) => {
-      var newState: TaskType[] = []
-      var startingCollapse = false
-
-      // would like to refactor into functional style
-      for (var oldTask of state) {
-        var newTask = {...oldTask}
-
-        if (startingCollapse) {
-          if (newTask.parentId === task.parentId) {
-            startingCollapse = false
-          } else if (newTask.intendation < task.intendation) {
-            startingCollapse = false
-          } else {
-            newTask.hidden = !newTask.hidden
-          }
-        }
-        if (newTask.id === task.id) {
-          startingCollapse = true
-          newTask.collapsed = !newTask.collapsed
-        }
-        newState.push(newTask)
-      }
-      return newState
-    })
   }
 }

@@ -56,7 +56,7 @@ export default function Task(props: { task: TaskType, setAddingSubtaskId: Functi
         )
       })}
       <div className={taskClasses} key={props.task.id} >
-        <span onClick={() => props.collapseTask(props.task)}>{collapsedCharacter}</span>
+        <span className="task-collapse-button" onClick={() => props.collapseTask(props.task)}>{collapsedCharacter}</span>
         <span className="task-text">{props.task.text} <span className="task-children-badge">{childrenDoneBadge}</span></span>
         <span className="task-spacer"></span>
         {buttons}

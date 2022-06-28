@@ -1,4 +1,5 @@
 import { TaskType } from "../../../../types/TaskType"
+import { getSubTreeIds } from "../../helpers/getSubTreeIds"
 import { moveTaskDown } from "../../helpers/moveTasks"
 
 export function updateTaskIsDone(id: number, setTasks: Function, isDone: boolean) {
@@ -23,5 +24,71 @@ export function updateTaskIsDone(id: number, setTasks: Function, isDone: boolean
       }
       return result
     }, initTasks)
+  })
+}
+
+export function toggleCollapseInState(task: TaskType, tasks: TaskType[], setTasks: Function) {
+  if (task.collapsed) {
+    uncollapseInState(task, tasks, setTasks)
+  } else {
+    collapseInState(task, tasks, setTasks)
+  }
+}
+
+function uncollapseInState(task: TaskType, tasks: TaskType[], setTasks: Function) {
+  setTasks((state: TaskType[]) => {
+    const subtreeIdsStack = getSubTreeIds(task.id, tasks)
+    var deepCollapsedStack: number[] = []
+
+    return state.map(stateTask => {
+      console.log("Statetask")
+      console.log(stateTask)
+      console.log("subtreeIdsStack")
+      console.log(subtreeIdsStack)
+      console.log("deepCollapsedStack")
+      console.log(deepCollapsedStack)
+      if (stateTask.id == task.id) {
+        subtreeIdsStack.pop()
+        return {...stateTask, collapsed: false}
+      // using includes() would make whole function 0(n^2) thats why we use stack. We know order
+      } else if (stateTask.id === subtreeIdsStack[subtreeIdsStack.length - 1]) {
+        subtreeIdsStack.pop()
+        if (stateTask.collapsed && deepCollapsedStack.length === 0) {
+          deepCollapsedStack = getSubTreeIds(stateTask.id, tasks)
+          console.log("deepCollapsedStack")
+          console.log(deepCollapsedStack)
+          deepCollapsedStack.pop()
+          return {...stateTask, hidden: false}
+        } else if (stateTask.id === deepCollapsedStack[deepCollapsedStack.length - 1]) {
+          deepCollapsedStack.pop()
+          return {...stateTask, hidden: true}
+        } else {
+          return {...stateTask, hidden: false}
+        }
+      } else {
+        return stateTask
+      }
+    })
+  })
+}
+
+function collapseInState(task: TaskType, tasks: TaskType[], setTasks: Function) {
+  // map O(n)
+  setTasks((state: TaskType[]) => {
+    // O(n)
+    const subtreeIdsStack = getSubTreeIds(task.id, tasks)
+
+    return state.map(stateTask => {
+      if (stateTask.id == task.id) {
+        subtreeIdsStack.pop()
+        return {...stateTask, collapsed: true}
+      // using includes() would make whole function 0(n^2) thats why we use stack. We know order
+      } else if (stateTask.id === subtreeIdsStack[subtreeIdsStack.length - 1]) {
+        subtreeIdsStack.pop()
+        return {...stateTask, hidden: true}
+      } else {
+        return stateTask
+      }
+    })
   })
 }
