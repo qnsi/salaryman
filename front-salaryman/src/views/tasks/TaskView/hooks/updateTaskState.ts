@@ -1,3 +1,4 @@
+import { convertTypeAcquisitionFromJson } from "typescript"
 import { TaskType } from "../../../../types/TaskType"
 import { getSubTreeIds } from "../../helpers/getSubTreeIds"
 import { moveTaskDown } from "../../helpers/moveTasks"
@@ -5,6 +6,7 @@ import { moveTaskDown } from "../../helpers/moveTasks"
 export function updateTaskIsDone(id: number, setTasks: Function, isDone: boolean) {
   setTasks((state: TaskType[]) => {
     const doneTask = state.find(task => task.id == id) as TaskType
+    const doneTaskSubtreeStack = getSubTreeIds(doneTask.id, state)
     const parent = state.find(stateTask => stateTask.id == doneTask.parentId)
     var parentId = 0
     if (parent) {
@@ -13,13 +15,15 @@ export function updateTaskIsDone(id: number, setTasks: Function, isDone: boolean
     var initTasks: TaskType[] = []
     return state.reduce((result, task) => {
       console.log(task)
-      console.log(id)
+      console.log(doneTaskSubtreeStack)
       if (task.id === parentId) {
         result.push({...task, doneChildren: task.doneChildren + 1})
-      } else if (task.id !== id) {
-        result.push(task)
-      } else if (task.id === id && task.parentId === null) {
-        task.isDone = true;
+      } else if (task.id === doneTaskSubtreeStack[doneTaskSubtreeStack.length - 1]) {
+        doneTaskSubtreeStack.pop()
+        if (task.parentId === null) {
+          result.push({...task, isDone: true})
+        }
+      } else {
         result.push(task)
       }
       return result
@@ -41,12 +45,6 @@ function uncollapseInState(task: TaskType, tasks: TaskType[], setTasks: Function
     var deepCollapsedStack: number[] = []
 
     return state.map(stateTask => {
-      console.log("Statetask")
-      console.log(stateTask)
-      console.log("subtreeIdsStack")
-      console.log(subtreeIdsStack)
-      console.log("deepCollapsedStack")
-      console.log(deepCollapsedStack)
       if (stateTask.id == task.id) {
         subtreeIdsStack.pop()
         return {...stateTask, collapsed: false}
@@ -55,8 +53,6 @@ function uncollapseInState(task: TaskType, tasks: TaskType[], setTasks: Function
         subtreeIdsStack.pop()
         if (stateTask.collapsed && deepCollapsedStack.length === 0) {
           deepCollapsedStack = getSubTreeIds(stateTask.id, tasks)
-          console.log("deepCollapsedStack")
-          console.log(deepCollapsedStack)
           deepCollapsedStack.pop()
           return {...stateTask, hidden: false}
         } else if (stateTask.id === deepCollapsedStack[deepCollapsedStack.length - 1]) {

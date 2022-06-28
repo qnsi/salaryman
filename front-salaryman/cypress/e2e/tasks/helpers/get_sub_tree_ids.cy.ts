@@ -5,13 +5,13 @@ describe("Return correct subtree ids", () => {
   it("works for example tree with next sibling present", () => {
     const tasks = prepareTestTree()
     const subTreeOfTwo = getSubTreeIds(2, tasks)
-    expect(subTreeOfTwo).to.deep.eq([2,4,7,8,9,5])
+    expect(subTreeOfTwo).to.deep.eq([2,4,7,8,9,5].reverse())
   })
 
   it("works for example tree with nothing after", () => {
     const tasks = prepareTestTree()
     const subTreeOfTwo = getSubTreeIds(3, tasks)
-    expect(subTreeOfTwo).to.deep.eq([3,6])
+    expect(subTreeOfTwo).to.deep.eq([3,6].reverse())
   })
 
   it("works for example tree with uncle", () => {

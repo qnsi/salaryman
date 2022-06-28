@@ -1,14 +1,24 @@
 import React from "react"
 import { TaskType } from "../../../../types/TaskType"
+type Params = {
+  tasks: TaskType[],
+  focusedTaskId: number,
+  setFocusedTaskId: Function,
+  setFocusedTaskNotDone: Function,
+  setAddingSubtaskId: Function,
+  setInputFocused: Function,
+  inputFocused: boolean,
+  collapseTask: Function,
+  moveTaskUp: Function,
+  moveTaskDown: Function
+}
 
-export default function useKeyboardShortcuts(tasks: TaskType[], focusedTaskId: number, setFocusedTaskId: Function,
-                                             setAddingSubtaskId: Function, setInputFocused: Function, inputFocused: boolean,
-                                             collapseTask: Function, moveTaskUp: Function, moveTaskDown: Function) {
+
+export default function useKeyboardShortcuts(params: Params) {
 
   const handleKeyPress = React.useCallback((event: KeyboardEvent) => {
-    handleKeysWhenBulletFocused(event, tasks, focusedTaskId, setFocusedTaskId, setAddingSubtaskId, setInputFocused, inputFocused,
-                                collapseTask, moveTaskDown, moveTaskUp)
-  }, [tasks, focusedTaskId, inputFocused])
+    handleKeysWhenBulletFocused(event, params)
+  }, [params.tasks, params.focusedTaskId, params.inputFocused])
 
   React.useEffect(addAndRemoveKeyboardListeners, [handleKeyPress])
 
@@ -20,78 +30,77 @@ export default function useKeyboardShortcuts(tasks: TaskType[], focusedTaskId: n
   }
 }
 
-function handleKeysWhenBulletFocused(event: KeyboardEvent, tasks: TaskType[], focusedTaskId: number, setFocusedTaskId: Function,
-                                     setAddingSubtaskId: Function, setInputFocused: Function, inputFocused: boolean,
-                                     collapseTask: Function, moveTaskDown: Function, moveTaskUp: Function) {
-  if (!inputFocused) {
+function handleKeysWhenBulletFocused(event: KeyboardEvent, params: Params) {
+  if (!params.inputFocused) {
     if (event.key === "j") {
-      moveFocusDown(tasks, focusedTaskId, setFocusedTaskId)
+      moveFocusDown(params.tasks, params.focusedTaskId, params.setFocusedTaskId, params.setFocusedTaskNotDone)
     } else if (event.key === "J"){ 
-      moveTaskDown(focusedTaskId)
+      params.moveTaskDown(params.focusedTaskId)
     } else if (event.key === "k") {
-      moveFocusUp(tasks, focusedTaskId, setFocusedTaskId)
+      moveFocusUp(params.tasks, params.focusedTaskId, params.setFocusedTaskId, params.setFocusedTaskNotDone)
     } else if (event.key === "K") {
-      moveTaskUp(focusedTaskId)
+      params.moveTaskUp(params.focusedTaskId)
     } else if (event.key == "s") {
-      if (focusedTaskId !== 0) {
+      if (params.focusedTaskId !== 0) {
         event.preventDefault()
-        setInputFocused(true)
-        openSubtaskForm(focusedTaskId, setAddingSubtaskId)
+        params.setInputFocused(true)
+        openSubtaskForm(params.focusedTaskId, params.setAddingSubtaskId)
       }
     } else if (event.key === "h") {
-      const task = tasks.find(task => task.id === focusedTaskId)
-      collapseTask(task)
+      const task = params.tasks.find(task => task.id === params.focusedTaskId)
+      params.collapseTask(task)
     }
   } else {
     if (event.key === "Escape") {
-      setInputFocused(false)
-      setFocusedTaskId(0)
-      setAddingSubtaskId(0)
+      params.setInputFocused(false)
+      params.setFocusedTaskId(0)
+      params.setAddingSubtaskId(0)
     }
   }
 }
 
-function moveFocusDown(tasks: TaskType[], focusedTaskId: number, setFocusedTaskId: Function) {
+function moveFocusDown(tasks: TaskType[], focusedTaskId: number, setFocusedTaskId: Function, setFocusedTaskNotDone: Function) {
   var nextFocused = 0
+  var task: TaskType
   if (focusedTaskId === 0) {
-    nextFocused = tasks[0].id
+    task = tasks[0]
   } else {
-    nextFocused = getNextFocusedElementId(tasks, focusedTaskId)
+    task = getNextFocusedElementId(tasks, focusedTaskId)
   }
+  nextFocused = task.id
   setFocusedTaskId(nextFocused)
+  setFocusedTaskNotDone(!task.isDone)
 }
 
-export function moveFocusUp(tasks: TaskType[], focusedTaskId: number, setFocusedTaskId: Function) {
-  var prevFocused = 0
+export function moveFocusUp(tasks: TaskType[], focusedTaskId: number, setFocusedTaskId: Function, setFocusedTaskNotDone: Function) {
+  var prevTask: TaskType
   if (focusedTaskId === 0) {
-    const prevFocusedTask = tasks[tasks.length - 1]
-    if (prevFocusedTask.hidden) {
-      prevFocused = getPrevFocusedElementId(tasks, prevFocusedTask.id)
-    } else {
-      prevFocused = prevFocusedTask.id
+    prevTask = tasks[tasks.length - 1]
+    if (prevTask.hidden) {
+      prevTask = getPrevFocusedElementId(tasks, prevTask.id)
     }
   } else {
-    prevFocused = getPrevFocusedElementId(tasks, focusedTaskId)
+    prevTask = getPrevFocusedElementId(tasks, focusedTaskId)
   }
-  setFocusedTaskId(prevFocused)
+  setFocusedTaskId(prevTask.id)
+  setFocusedTaskNotDone(!prevTask.isDone)
 }
 
-function getNextFocusedElementId(tasks: TaskType[], focusedTaskId: number) {
+function getNextFocusedElementId(tasks: TaskType[], focusedTaskId: number): TaskType {
   const task = tasks.find((task) => task.id === focusedTaskId) as TaskType
   const taskIndex = tasks.indexOf(task)
   if (taskIndex === tasks.length - 1) {
-    return tasks[0].id
+    return tasks[0]
   } else {
-    const nextElement = tasks[taskIndex +1]
-    var id = nextElement.id
+    var nextElement = tasks[taskIndex +1]
     if (nextElement.hidden) {
-      id = getNextFocusedElementId(tasks, nextElement.id)
+      nextElement = getNextFocusedElementId(tasks, nextElement.id)
     }
-    return id
+    return nextElement
   }
 } 
 
-function getPrevFocusedElementId(tasks: TaskType[], focusedTaskId: number): number {
+function getPrevFocusedElementId(tasks: TaskType[], focusedTaskId: number): TaskType {
   const task = tasks.find((task) => task.id === focusedTaskId) as TaskType
   const taskIndex = tasks.indexOf(task)
   if (taskIndex === 0) {
@@ -99,14 +108,14 @@ function getPrevFocusedElementId(tasks: TaskType[], focusedTaskId: number): numb
     if (prevTask.hidden) {
       return getPrevFocusedElementId(tasks, prevTask.id)
     } else {
-      return prevTask.id
+      return prevTask
     }
   } else {
     const prevTask = tasks[taskIndex - 1]
     if (prevTask.hidden) {
       return getPrevFocusedElementId(tasks, prevTask.id)
     } else {
-      return prevTask.id
+      return prevTask
     }
   }
 } 

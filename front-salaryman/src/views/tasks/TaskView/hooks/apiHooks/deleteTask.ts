@@ -2,10 +2,10 @@ import { deleteTaskFromBackend } from "../../../../../api/deleteTask"
 import { TaskType } from "../../../../../types/TaskType"
 import { moveFocusUp } from "../useKeyboardShortcuts"
 
-export async function deleteTask(id: number, tasks: TaskType[], setTasks: Function, setFocusedTaskId: Function) {
+export async function deleteTask(id: number, tasks: TaskType[], setTasks: Function, setFocusedTaskId: Function, setFocusedTaskNotDone: Function) {
   const response = await deleteTaskFromBackend(id)
   handleDeleteResponse(response.data, id, tasks, setTasks)
-  moveFocusUp(tasks, id, setFocusedTaskId)
+  moveFocusUp(tasks, id, setFocusedTaskId, setFocusedTaskNotDone)
 }
 
 function handleDeleteResponse(response: {status: string}, id: number, tasks: TaskType[], setTasks: Function) {
@@ -23,6 +23,7 @@ function deleteTaskFromState(id: number, setTasks: Function, tasks: TaskType[]) 
   })
 }
 
+// 
 function deleteDescendentsFromState(parentId: number, setTasks: Function, tasks: TaskType[]) {
   const children = tasks.filter(task => task.parentId == parentId)
   if (children.length > 0) {

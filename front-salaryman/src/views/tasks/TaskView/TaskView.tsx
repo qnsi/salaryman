@@ -24,19 +24,19 @@ export default function TaskView() {
 
   const [focusedTaskId, setFocusedTaskId] = React.useState(0)
   const [inputFocused, setInputFocused] = React.useState(true)
+  const [focusedTaskNotDone, setFocusedTaskNotDone] = React.useState(true)
 
   const [deleteProgress, setDeleteProgress] = React.useState(0)
   const [doneProgress, setDoneProgress] = React.useState(0)
 
   const [tasks, setTasks] = useGetTasksFromBackendAndSet()
 
-  useKeyboardShortcuts(tasks, focusedTaskId, setFocusedTaskId, setAddingSubtaskId, setInputFocused, inputFocused, collapseTask,
-                       _moveTaskUp, _moveTaskDown)
-  useHoldKeyboardShortcuts(deleteProgress, setDeleteProgress, _deleteTask, focusedTaskId,
+  useKeyboardShortcuts({tasks, focusedTaskId, setFocusedTaskId, setFocusedTaskNotDone, setAddingSubtaskId, setInputFocused, inputFocused, collapseTask, moveTaskUp: _moveTaskUp, moveTaskDown: _moveTaskDown})
+  useHoldKeyboardShortcuts(deleteProgress, setDeleteProgress, _deleteTask, focusedTaskId, focusedTaskNotDone,
                           doneProgress, setDoneProgress, markAsDone, inputFocused)
 
   function _deleteTask(focusedTaskId: number) {
-    deleteTask(focusedTaskId, tasks, setTasks, setFocusedTaskId)
+    deleteTask(focusedTaskId, tasks, setTasks, setFocusedTaskId, setFocusedTaskNotDone)
   }
 
   function _moveTaskUp(focusedTaskId: number) {
@@ -56,13 +56,12 @@ export default function TaskView() {
 
   async function markAsDone(id: number) {
     const task = tasks.find(stateTask => stateTask.id == id) as TaskType
-    const response = await markTaskAsDoneInBackend(id, !task.isDone)
-    if (response.data.status === "ok") {
+    markTaskAsDoneInBackend(id, !task.isDone).then(response => {
       updateTaskIsDone(id, setTasks, !task.isDone)
-    } else {
-      console.log("ERROR in markAsDone")
-    }
-    moveFocusUp(tasks, id, setFocusedTaskId)
+    }).catch(error => {
+      window.alert("We couldn't connect to the server! Try again.\n\n" + error)
+    })
+    moveFocusUp(tasks, id, setFocusedTaskId, setFocusedTaskNotDone)
   }
 
   return (
@@ -80,6 +79,7 @@ export default function TaskView() {
     const taskElement = <Task key={task.id} task={task} setAddingSubtaskId={setAddingSubtaskId}
                               deleteTask={_deleteTask} deleteProgress={deleteProgress} collapseTask={collapseTask} 
                               focusedTaskId={focusedTaskId} setFocusedTaskId={setFocusedTaskId}
+                              setFocusedTaskNotDone={setFocusedTaskNotDone}
                               markAsDone={markAsDone} doneProgress={doneProgress}
                         />
     if (task.hidden) {
