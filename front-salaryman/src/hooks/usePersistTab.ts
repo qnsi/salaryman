@@ -7,8 +7,8 @@ export function usePersistTab(setView: Function) {
     const tab = urlParams.get('tab');
     if (tab === null || tab === "tasks") {
       setView(MainView.Tasks)
-    } else if (tab === "things") {
-      setView(MainView.Things)
+    } else if (tab === "log") {
+      setView(MainView.TaskLog)
     } else {
       setView(MainView.NoContent)
     }

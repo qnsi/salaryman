@@ -5,6 +5,7 @@ export type TaskType = {
   intendation: number,
   parentId: number,
   doneChildren: number,
+  doneDate: string,
   text: string,
   createdAt: string,
   updatedAt: string,

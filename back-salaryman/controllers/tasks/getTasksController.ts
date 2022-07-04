@@ -10,3 +10,17 @@ export async function getTasks(req: Request, res: Response, userId: number, pris
   console.log(tasks)
   res.json({"status": "ok", tasks})
 }
+
+export async function getDoneTasks(req: Request, res: Response, userId: number, prisma: PrismaClient) {
+  const tasks = await prisma.task.findMany({
+    where: {
+      userId,
+      isDone: true
+    },
+    orderBy: {
+      doneDate: "desc"
+    }
+  })
+  console.log(tasks)
+  res.json({"status": "ok", tasks})
+}

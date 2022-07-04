@@ -18,9 +18,9 @@ export function updateTaskIsDone(id: number, setTasks: Function, isDone: boolean
         result.push({...task, doneChildren: task.doneChildren + 1})
       } else if (task.id === doneTaskSubtreeStack[doneTaskSubtreeStack.length - 1]) {
         doneTaskSubtreeStack.pop()
-        if (task.parentId === null) {
-          result.push({...task, isDone: true})
-        }
+        // if (task.parentId === null) {
+        //   result.push({...task, isDone: true})
+        // }
       } else {
         result.push(task)
       }

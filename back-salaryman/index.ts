@@ -2,7 +2,7 @@ import express, { Express, Request, Response } from "express"
 import cors from "cors"
 import { PrismaClient } from '@prisma/client'
 import { saveTask } from "./controllers/tasks/saveTaskController"
-import { getTasks } from "./controllers/tasks/getTasksController"
+import { getDoneTasks, getTasks } from "./controllers/tasks/getTasksController"
 import deleteTask from "./controllers/tasks/deleteTasksController"
 import { updateTask } from "./controllers/tasks/updateTaskController"
 import { saveCategory } from "./controllers/saveCategoryController"
@@ -47,6 +47,11 @@ app.use(express.static(path.resolve(__dirname, "./../../front-salaryman/build"))
 app.get("/tasks", (req: Request, res: Response) => {
   const userId = getUserIdFromReq(req as basicAuth.IBasicAuthedRequest)
   getTasks(req, res, userId, prisma)
+})
+
+app.get("/tasks/done", (req: Request, res: Response) => {
+  const userId = getUserIdFromReq(req as basicAuth.IBasicAuthedRequest)
+  getDoneTasks(req, res, userId, prisma)
 })
 
 app.post("/tasks/new", (req: Request, res: Response) => {
