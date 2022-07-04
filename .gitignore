@@ -2,3 +2,4 @@ node_modules/
 test-results/
 playwright-report/
 tests_old/
+front-salaryman/.nyc_output/out.json

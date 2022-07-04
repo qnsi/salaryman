@@ -8,6 +8,7 @@ import { updateTask } from "./controllers/tasks/updateTaskController"
 import { saveCategory } from "./controllers/saveCategoryController"
 import { getCategories } from "./controllers/getCategories"
 import expressBasicAuth from "express-basic-auth"
+import * as basicAuth from 'express-basic-auth'
 
 const path = require("path");
 
@@ -28,14 +29,29 @@ if (process.env.REACT_APP_APP_ENV === "production") {
   }))
 }
 
+function getUserIdFromReq(req: basicAuth.IBasicAuthedRequest) {
+  if (process.env.REACT_APP_APP_ENV === "dev") {
+    return 1
+  }
+  if (req.auth.user === "guest") {
+    return 1
+  } else if (req.auth.user === "arturkesik") {
+    return 2
+  } else {
+    return 0
+  }
+}
+
 app.use(express.static(path.resolve(__dirname, "./../../front-salaryman/build")));
 
 app.get("/tasks", (req: Request, res: Response) => {
-  getTasks(req, res, prisma)
+  const userId = getUserIdFromReq(req as basicAuth.IBasicAuthedRequest)
+  getTasks(req, res, userId, prisma)
 })
 
 app.post("/tasks/new", (req: Request, res: Response) => {
-  saveTask(req, res, prisma)
+  const userId = getUserIdFromReq(req as basicAuth.IBasicAuthedRequest)
+  saveTask(req, res, userId, prisma)
 })
 
 app.post("/tasks/delete", (req: Request, res: Response) => {

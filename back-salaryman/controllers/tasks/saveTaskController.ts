@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client"
 import { Request, Response } from "express"
 
-export async function saveTask(req: Request, res: Response, prisma: PrismaClient){
+export async function saveTask(req: Request, res: Response, userId: number, prisma: PrismaClient){
   console.log(req.body)
   const parentId = getParentIdFromBody(req)
   const siblingsCount = await getSiblingsCount(parentId, prisma)
@@ -9,7 +9,8 @@ export async function saveTask(req: Request, res: Response, prisma: PrismaClient
     data: {
       text: req.body.task.text,
       order: siblingsCount+1,
-      parentId
+      parentId,
+      userId
     }
   })
   res.json({task: task, status: "ok"})
