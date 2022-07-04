@@ -46,7 +46,7 @@ export default function Task(props: { task: TaskType, setAddingSubtaskId: Functi
 
   function elementFocused() {
     props.setFocusedTaskId(props.task.id)
-    props.setFocusedTaskNotDone(!props.markAsDone)
+    props.setFocusedTaskNotDone(!props.task.isDone)
   }
 
   function elementDefocused() {

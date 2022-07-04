@@ -14,8 +14,6 @@ export function updateTaskIsDone(id: number, setTasks: Function, isDone: boolean
     }
     var initTasks: TaskType[] = []
     return state.reduce((result, task) => {
-      console.log(task)
-      console.log(doneTaskSubtreeStack)
       if (task.id === parentId) {
         result.push({...task, doneChildren: task.doneChildren + 1})
       } else if (task.id === doneTaskSubtreeStack[doneTaskSubtreeStack.length - 1]) {

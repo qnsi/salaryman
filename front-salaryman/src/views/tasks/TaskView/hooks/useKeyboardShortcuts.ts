@@ -65,7 +65,7 @@ function moveFocusDown(tasks: TaskType[], focusedTaskId: number, setFocusedTaskI
   if (focusedTaskId === 0) {
     task = tasks[0]
   } else {
-    task = getNextFocusedElementId(tasks, focusedTaskId)
+    task = getNextFocusedElement(tasks, focusedTaskId)
   }
   nextFocused = task.id
   setFocusedTaskId(nextFocused)
@@ -77,16 +77,16 @@ export function moveFocusUp(tasks: TaskType[], focusedTaskId: number, setFocused
   if (focusedTaskId === 0) {
     prevTask = tasks[tasks.length - 1]
     if (prevTask.hidden) {
-      prevTask = getPrevFocusedElementId(tasks, prevTask.id)
+      prevTask = getPrevFocusedElement(tasks, prevTask.id)
     }
   } else {
-    prevTask = getPrevFocusedElementId(tasks, focusedTaskId)
+    prevTask = getPrevFocusedElement(tasks, focusedTaskId)
   }
   setFocusedTaskId(prevTask.id)
   setFocusedTaskNotDone(!prevTask.isDone)
 }
 
-function getNextFocusedElementId(tasks: TaskType[], focusedTaskId: number): TaskType {
+function getNextFocusedElement(tasks: TaskType[], focusedTaskId: number): TaskType {
   const task = tasks.find((task) => task.id === focusedTaskId) as TaskType
   const taskIndex = tasks.indexOf(task)
   if (taskIndex === tasks.length - 1) {
@@ -94,26 +94,26 @@ function getNextFocusedElementId(tasks: TaskType[], focusedTaskId: number): Task
   } else {
     var nextElement = tasks[taskIndex +1]
     if (nextElement.hidden) {
-      nextElement = getNextFocusedElementId(tasks, nextElement.id)
+      nextElement = getNextFocusedElement(tasks, nextElement.id)
     }
     return nextElement
   }
 } 
 
-function getPrevFocusedElementId(tasks: TaskType[], focusedTaskId: number): TaskType {
+function getPrevFocusedElement(tasks: TaskType[], focusedTaskId: number): TaskType {
   const task = tasks.find((task) => task.id === focusedTaskId) as TaskType
   const taskIndex = tasks.indexOf(task)
   if (taskIndex === 0) {
     const prevTask =  tasks[tasks.length - 1]
     if (prevTask.hidden) {
-      return getPrevFocusedElementId(tasks, prevTask.id)
+      return getPrevFocusedElement(tasks, prevTask.id)
     } else {
       return prevTask
     }
   } else {
     const prevTask = tasks[taskIndex - 1]
     if (prevTask.hidden) {
-      return getPrevFocusedElementId(tasks, prevTask.id)
+      return getPrevFocusedElement(tasks, prevTask.id)
     } else {
       return prevTask
     }
