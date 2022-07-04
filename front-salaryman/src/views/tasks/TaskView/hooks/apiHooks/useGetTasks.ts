@@ -36,10 +36,12 @@ function prepareTasksWithIntendationAndDoneChildren(tasks: TaskType[]) {
   var tasksSorted: TaskType[] = []
   for (const task of tasks) {
     if (task.parentId === null) {
-      task.intendation = 0
-      const [descendents, newTask] = findTaskChildren(tasks, task, 0)
-      tasksSorted = tasksSorted.concat([newTask])
-      tasksSorted = tasksSorted.concat(descendents)
+      if (!task.isDone) {
+        task.intendation = 0
+        const [descendents, newTask] = findTaskChildren(tasks, task, 0)
+        tasksSorted = tasksSorted.concat([newTask])
+        tasksSorted = tasksSorted.concat(descendents)
+      }
     }
   }
   return tasksSorted
@@ -75,26 +77,26 @@ function hidTaskThatShouldBeCollapsed(tasks: TaskType[]) {
 }
 
 function hideChildrenInState(tasks: TaskType[], task: TaskType) {
-    var newState: TaskType[] = []
-    var startingCollapse = false
+  var newState: TaskType[] = []
+  var startingCollapse = false
 
-    // would like to refactor into functional style
-    for (var oldTask of tasks) {
-      var newTask = { ...oldTask }
+  // would like to refactor into functional style
+  for (var oldTask of tasks) {
+    var newTask = { ...oldTask }
 
-      if (startingCollapse) {
-        if (newTask.parentId === task.parentId) {
-          startingCollapse = false
-        } else if (newTask.intendation < task.intendation) {
-          startingCollapse = false
-        } else {
-          newTask.hidden = !newTask.hidden
-        }
+    if (startingCollapse) {
+      if (newTask.parentId === task.parentId) {
+        startingCollapse = false
+      } else if (newTask.intendation < task.intendation) {
+        startingCollapse = false
+      } else {
+        newTask.hidden = !newTask.hidden
       }
-      if (newTask.id === task.id) {
-        startingCollapse = true
-      }
-      newState.push(newTask)
     }
-    return newState
+    if (newTask.id === task.id) {
+      startingCollapse = true
+    }
+    newState.push(newTask)
+  }
+  return newState
 }

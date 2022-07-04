@@ -3,12 +3,14 @@ import './App.css';
 import { usePersistTab } from './hooks/usePersistTab';
 import Navbar from './views/Navbar';
 import Sidebar from './views/Sidebar';
+import TaskLog from './views/tasks/TaskLog/TaskLog';
 import TaskView from './views/tasks/TaskView/TaskView';
 import { ThingView } from './views/things/ThingView';
 
 export enum MainView {
   Tasks,
   Things,
+  TaskLog,
   NoContent
 }
 
@@ -18,8 +20,8 @@ function App() {
   usePersistTab(setView)
 
   var viewComponent = <TaskView />
-  if (view === MainView.Things) {
-    viewComponent = <ThingView />
+  if (view === MainView.TaskLog) {
+    viewComponent = <TaskLog />
   } else if (view === MainView.NoContent) {
     viewComponent = <div>404</div>
   }

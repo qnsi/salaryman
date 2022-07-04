@@ -55,29 +55,16 @@ describe("Marks task as done", () => {
     });
   })
 
-  it("shows crossed task when task is a root parent", () => {
+  it("hides root task", () => {
     cy.prepareDb()
     cy.createTask(0, "First task")
+    cy.createTask(0, "Second task")
     cy.visit("localhost:3000")
     cy.contains("First task").trigger("mouseover")
     cy.contains("Done").click()
-    cy.get(".task").eq(0).should("have.class", "task-is-done")
-    cy.get(".task-container").eq(0).should("contain", "First task")
-  })
-
-  it("hides buttons when task is crossed", () => {
-    cy.prepareDb()
-    cy.createTask(0, "First task")
-    cy.visit("localhost:3000")
-    cy.contains("First task").trigger("mouseover")
+    cy.contains("Second task").trigger("mouseover")
     cy.contains("Done").click()
-    cy.get(".task").eq(0).should("have.class", "task-is-done")
-    cy.contains("First task").trigger("mouseover")
-    cy.contains("Done").should("not.exist")
-  })
-
-  it("dissalows keyboard shortcuts when task is crossed", () => {
-
+    cy.get(".task-container").should("have.length", 0)
   })
 
   it("displays alert when server is down", () => {
