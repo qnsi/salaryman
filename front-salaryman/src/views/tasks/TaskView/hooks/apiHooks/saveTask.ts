@@ -5,8 +5,6 @@ type newTaskResponse = { status: string, task: TaskType }
 export function handleNewTaskResponse(response: newTaskResponse, setTasks: Function) {
   if (response.status === "ok") {
     updateStateIfResponseOk(response, setTasks)
-  } else {
-    displayErrorIfResponseError(response)
   }
 }
 
@@ -45,9 +43,4 @@ function findAncestorUncle(state: TaskType[], current_task: TaskType): number {
   } else {
     return state.indexOf(uncles[parentIndexOfInUncles+1])
   }
-}
-
-
-function displayErrorIfResponseError(response: newTaskResponse) {
-  console.log("NOT IMPLEMENTED! Error when communicating with the server")
 }

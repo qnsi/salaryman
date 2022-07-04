@@ -11,8 +11,6 @@ export async function deleteTask(id: number, tasks: TaskType[], setTasks: Functi
 function handleDeleteResponse(response: {status: string}, id: number, tasks: TaskType[], setTasks: Function) {
   if (response.status === "ok") {
     deleteTaskFromState(id, setTasks, tasks)
-  } else {
-    displayGetErrorIfResponseError()
   }
 }
 
@@ -35,8 +33,4 @@ function deleteDescendentsFromState(parentId: number, setTasks: Function, tasks:
       return state.filter((task) => !childrenIds.includes(task.id))
     })
   }
-}
-
-function displayGetErrorIfResponseError() {
-  console.log("NOT IMPLEMENTED! Error when communicating with the server")
 }

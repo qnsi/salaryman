@@ -61,6 +61,8 @@ describe("Collapses correctly", () => {
         const taskTwoId = respTwo.body.task.id
         cy.createTask(taskTwoId, "Grandchild")
       })
+      cy.createTask(taskOneId, "Child 2")
+      cy.createTask(0, "Other task")
 
       cy.visit("localhost:3000")
 
@@ -72,7 +74,7 @@ describe("Collapses correctly", () => {
       cy.get(".task-collapse-button").eq(0).click()
 
       cy.get(".task-container").eq(1).should("contain", "Child")
-      cy.get(".task-container").should("have.length", 2)
+      cy.get(".task-container").should("have.length", 4)
     });
   })
 })

@@ -37,6 +37,9 @@ export default function TaskView() {
 
   function _deleteTask(focusedTaskId: number) {
     deleteTask(focusedTaskId, tasks, setTasks, setFocusedTaskId, setFocusedTaskNotDone)
+    .catch(error => {
+      window.alert("We couldn't connect to the server! Try again.\n\n" + error)
+    })
   }
 
   function _moveTaskUp(focusedTaskId: number) {
@@ -49,8 +52,12 @@ export default function TaskView() {
 
   async function addNewTask(value: string, parentId: number) {
     setAddingSubtaskId(0)
-    const response = await saveTask(value, 1, parentId)
-    handleNewTaskResponse(response.data, setTasks)
+    await saveTask(value, 1, parentId).then((response) => {
+      handleNewTaskResponse(response.data, setTasks)
+    })
+    .catch(error => {
+      window.alert("We couldn't connect to the server! Try again.\n\n" + error)
+    })
   }
 
 
