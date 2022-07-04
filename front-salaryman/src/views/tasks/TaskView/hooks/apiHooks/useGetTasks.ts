@@ -10,6 +10,8 @@ export function useGetTasksFromBackendAndSet(): [TaskType[], Function] {
   React.useEffect(() => {
     getTasksFromBackend().then((response) => {
       handleGetTasksResponse(response.data, setTasks)
+    }).catch(error => {
+      window.alert("We couldn't connect to the server! Try again.\n\n" + error)
     })
   }, [])
 
@@ -20,8 +22,6 @@ type getTasksResponse = { status: string, tasks: TaskType[] }
 async function handleGetTasksResponse(response: getTasksResponse, setTasks: Function) {
   if (response.status === "ok") {
     setInitialTasks(response.tasks, setTasks)
-  } else {
-    displayGetErrorIfResponseError(response)
   }
 }
 
@@ -29,11 +29,6 @@ function setInitialTasks(tasks: TaskType[], setTasks: Function) {
   const intendatedTasks = prepareTasksWithIntendationAndDoneChildren(tasks)
   const hiddenTasks = hidTaskThatShouldBeCollapsed(intendatedTasks)
   setTasks(hiddenTasks)
-}
-
-function displayGetErrorIfResponseError(response: getTasksResponse) {
-  console.log("NOT IMPLEMENTED! Error when communicating with the server")
-  console.log(response)
 }
 
 function prepareTasksWithIntendationAndDoneChildren(tasks: TaskType[]) {
