@@ -6,12 +6,12 @@ import { saveTask } from "../../../api/saveTask";
 import { handleNewTaskResponse } from "./hooks/apiHooks/saveTask";
 
 import { markTaskAsDoneInBackend, markTaskAsCollapsed } from "../../../api/updateTask";
-import { updateTaskIsDone } from "./hooks/apiHooks/updateTask";
+import { toggleCollapseInState, updateTaskIsDone } from "./hooks/updateTaskState";
 
 import useHoldKeyboardShortcuts from "./hooks/useHoldKeyboardShortcuts";
 import useKeyboardShortcuts, { moveFocusUp } from "./hooks/useKeyboardShortcuts";
 
-import { moveTaskDown, moveTaskUp } from "./helpers/moveTasks";
+import { moveTaskDown, moveTaskUp } from "../helpers/moveTasks";
 
 import NewTaskForm from "../NewTaskForm";
 import Task from "../Task";
@@ -24,19 +24,19 @@ export default function TaskView() {
 
   const [focusedTaskId, setFocusedTaskId] = React.useState(0)
   const [inputFocused, setInputFocused] = React.useState(true)
+  const [focusedTaskNotDone, setFocusedTaskNotDone] = React.useState(true)
 
   const [deleteProgress, setDeleteProgress] = React.useState(0)
   const [doneProgress, setDoneProgress] = React.useState(0)
 
   const [tasks, setTasks] = useGetTasksFromBackendAndSet()
 
-  useKeyboardShortcuts(tasks, focusedTaskId, setFocusedTaskId, setAddingSubtaskId, setInputFocused, inputFocused, collapseTask,
-                       _moveTaskUp, _moveTaskDown)
-  useHoldKeyboardShortcuts(deleteProgress, setDeleteProgress, _deleteTask, focusedTaskId,
+  useKeyboardShortcuts({tasks, focusedTaskId, setFocusedTaskId, setFocusedTaskNotDone, setAddingSubtaskId, setInputFocused, inputFocused, collapseTask, moveTaskUp: _moveTaskUp, moveTaskDown: _moveTaskDown})
+  useHoldKeyboardShortcuts(deleteProgress, setDeleteProgress, _deleteTask, focusedTaskId, focusedTaskNotDone,
                           doneProgress, setDoneProgress, markAsDone, inputFocused)
 
   function _deleteTask(focusedTaskId: number) {
-    deleteTask(focusedTaskId, tasks, setTasks, setFocusedTaskId)
+    deleteTask(focusedTaskId, tasks, setTasks, setFocusedTaskId, setFocusedTaskNotDone)
   }
 
   function _moveTaskUp(focusedTaskId: number) {
@@ -56,13 +56,12 @@ export default function TaskView() {
 
   async function markAsDone(id: number) {
     const task = tasks.find(stateTask => stateTask.id == id) as TaskType
-    const response = await markTaskAsDoneInBackend(id, !task.isDone)
-    if (response.data.status === "ok") {
+    markTaskAsDoneInBackend(id, !task.isDone).then(response => {
       updateTaskIsDone(id, setTasks, !task.isDone)
-    } else {
-      console.log("ERROR in markAsDone")
-    }
-    moveFocusUp(tasks, id, setFocusedTaskId)
+    }).catch(error => {
+      window.alert("We couldn't connect to the server! Try again.\n\n" + error)
+    })
+    moveFocusUp(tasks, id, setFocusedTaskId, setFocusedTaskNotDone)
   }
 
   return (
@@ -80,6 +79,7 @@ export default function TaskView() {
     const taskElement = <Task key={task.id} task={task} setAddingSubtaskId={setAddingSubtaskId}
                               deleteTask={_deleteTask} deleteProgress={deleteProgress} collapseTask={collapseTask} 
                               focusedTaskId={focusedTaskId} setFocusedTaskId={setFocusedTaskId}
+                              setFocusedTaskNotDone={setFocusedTaskNotDone}
                               markAsDone={markAsDone} doneProgress={doneProgress}
                         />
     if (task.hidden) {
@@ -98,35 +98,7 @@ export default function TaskView() {
   }
 
   async function collapseTask(task: TaskType) {
-    collapseInState(task)
+    toggleCollapseInState(task, tasks, setTasks)
     const resp = await markTaskAsCollapsed(task.id, !task.collapsed)
-  }
-
-  function collapseInState(task: TaskType) {
-    setTasks((state: TaskType[]) => {
-      var newState: TaskType[] = []
-      var startingCollapse = false
-
-      // would like to refactor into functional style
-      for (var oldTask of state) {
-        var newTask = {...oldTask}
-
-        if (startingCollapse) {
-          if (newTask.parentId === task.parentId) {
-            startingCollapse = false
-          } else if (newTask.intendation < task.intendation) {
-            startingCollapse = false
-          } else {
-            newTask.hidden = !newTask.hidden
-          }
-        }
-        if (newTask.id === task.id) {
-          startingCollapse = true
-          newTask.collapsed = !newTask.collapsed
-        }
-        newState.push(newTask)
-      }
-      return newState
-    })
   }
 }

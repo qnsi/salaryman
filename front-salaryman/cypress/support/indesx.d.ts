@@ -5,5 +5,6 @@ declare namespace Cypress {
        * @example cy.clickOnMyJourneyInCandidateCabinet()
        */
       prepareDb(): Chainable<null>;
+      createTask(parentId: number, text: string): Chainable<null>;
   }
 }

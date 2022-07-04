@@ -3,6 +3,7 @@ import { TaskType } from "../../../../types/TaskType";
 
 export default function useHoldKeyboardShortcuts(deleteProgress: number, setDeleteProgress: Function,
                                                 _deleteTask: Function, focusedTaskId: number,
+                                                focusedTaskNotDone: boolean,
                                                 doneProgress: number, setDoneProgress: Function,
                                                 markAsDone: Function, inputFocused: boolean) {
   const deleteCounterRef = React.useRef<NodeJS.Timer | null>(null);
@@ -30,14 +31,14 @@ export default function useHoldKeyboardShortcuts(deleteProgress: number, setDele
   }, [doneProgress])
 
   const handleKeyDown = React.useCallback((event: KeyboardEvent) => {
-    if (!event.repeat && !inputFocused) {
+    if (!event.repeat && !inputFocused && focusedTaskId !== 0 && focusedTaskNotDone) {
       if (event.key === "r") {
         startCounter(deleteCounterRef, setDeleteProgress, 1)
       } else if (event.key === "d") {
         startCounter(doneCounterRef, setDoneProgress, 3)
       }
     }
-  }, [inputFocused, deleteProgress, doneProgress])
+  }, [inputFocused, deleteProgress, doneProgress, focusedTaskNotDone, focusedTaskId])
 
   const handleKeyUp = React.useCallback((event: KeyboardEvent) => {
     if (event.key === "r") {

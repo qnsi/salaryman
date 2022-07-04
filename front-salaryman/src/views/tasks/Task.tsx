@@ -2,7 +2,8 @@ import React from "react";
 import { TaskType } from "../../types/TaskType";
 
 export default function Task(props: { task: TaskType, setAddingSubtaskId: Function, deleteTask: Function,
-                                      collapseTask: Function, setFocusedTaskId: Function, focusedTaskId: number
+                                      collapseTask: Function, setFocusedTaskId: Function, focusedTaskId: number,
+                                      setFocusedTaskNotDone: Function,
                                       deleteProgress: number, markAsDone: Function, doneProgress: number}) {
   var collapsedCharacter = "- "
   if (props.task.collapsed) {
@@ -23,13 +24,15 @@ export default function Task(props: { task: TaskType, setAddingSubtaskId: Functi
   var taskClasses = "task"
   var buttons = <></>
   if (props.focusedTaskId === props.task.id) {
-    buttons = (
-      <div className="task-buttons">
-        <button onClick={() => {props.markAsDone(props.task.id)}}>{markAsDoneText}</button>
-        <button onClick={() => {props.setAddingSubtaskId(props.task.id)}}>Add Subtask</button>
-        <button onClick={() => {props.deleteTask(props.task.id)}}>{deleteText}</button>
-      </div>
-    )
+    if (!props.task.isDone) {
+      buttons = (
+        <div className="task-buttons">
+          <button onClick={() => {props.markAsDone(props.task.id)}}>{markAsDoneText}</button>
+          <button onClick={() => {props.setAddingSubtaskId(props.task.id)}}>Add Subtask</button>
+          <button onClick={() => {props.deleteTask(props.task.id)}}>{deleteText}</button>
+        </div>
+      )
+    }
     taskClasses = "task task-focused"
   }
   if (props.task.isDone) {
@@ -41,11 +44,20 @@ export default function Task(props: { task: TaskType, setAddingSubtaskId: Functi
     childrenDoneBadge = `(${props.task.doneChildren} subtasks done)`
   }
 
+  function elementFocused() {
+    props.setFocusedTaskId(props.task.id)
+    props.setFocusedTaskNotDone(!props.task.isDone)
+  }
+
+  function elementDefocused() {
+    props.setFocusedTaskId(0)
+    props.setFocusedTaskNotDone(true)
+  }
 
   return (
     <div
-     onMouseEnter={()=>props.setFocusedTaskId(props.task.id)}
-     onMouseLeave={()=>props.setFocusedTaskId(0)}
+     onMouseEnter={elementFocused}
+     onMouseLeave={elementDefocused}
      className="task-container"
     >
       {intendationArray.map((value) => {
@@ -56,7 +68,7 @@ export default function Task(props: { task: TaskType, setAddingSubtaskId: Functi
         )
       })}
       <div className={taskClasses} key={props.task.id} >
-        <span onClick={() => props.collapseTask(props.task)}>{collapsedCharacter}</span>
+        <span className="task-collapse-button" onClick={() => props.collapseTask(props.task)}>{collapsedCharacter}</span>
         <span className="task-text">{props.task.text} <span className="task-children-badge">{childrenDoneBadge}</span></span>
         <span className="task-spacer"></span>
         {buttons}
