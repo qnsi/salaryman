@@ -6,9 +6,11 @@ import Sidebar from './views/Sidebar';
 import TaskLog from './views/tasks/TaskLog/TaskLog';
 import TaskView from './views/tasks/TaskView/TaskView';
 import { ThingView } from './views/things/ThingView';
+import IndividualTask from "./views/tasks/IndividualTask/IndividualTask"
 
 export enum MainView {
   Tasks,
+  Task,
   Things,
   TaskLog,
   NoContent
@@ -22,9 +24,11 @@ function App() {
   var viewComponent = <TaskView />
   if (view === MainView.TaskLog) {
     viewComponent = <TaskLog />
+  } else if (view === MainView.Task) {
+    viewComponent = <IndividualTask />
   } else if (view === MainView.NoContent) {
     viewComponent = <div>404</div>
-  }
+  } 
   return (
     <div className="App">
       <Navbar />

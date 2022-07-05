@@ -2,7 +2,7 @@ import express, { Express, Request, Response } from "express"
 import cors from "cors"
 import { PrismaClient } from '@prisma/client'
 import { saveTask } from "./controllers/tasks/saveTaskController"
-import { getDoneTasks, getTasks } from "./controllers/tasks/getTasksController"
+import { getDoneTasks, getTasks, getTask } from "./controllers/tasks/getTasksController"
 import deleteTask from "./controllers/tasks/deleteTasksController"
 import { updateTask } from "./controllers/tasks/updateTaskController"
 import { saveCategory } from "./controllers/saveCategoryController"
@@ -52,6 +52,11 @@ app.get("/tasks", (req: Request, res: Response) => {
 app.get("/tasks/done", (req: Request, res: Response) => {
   const userId = getUserIdFromReq(req as basicAuth.IBasicAuthedRequest)
   getDoneTasks(req, res, userId, prisma)
+})
+
+app.get("/task/:taskId", (req: Request, res: Response) => {
+  const userId = getUserIdFromReq(req as basicAuth.IBasicAuthedRequest)
+  getTask(req, res, userId, prisma)
 })
 
 app.post("/tasks/new", (req: Request, res: Response) => {
