@@ -1,5 +1,16 @@
-# How to run
+# Functionalities
 Best way to play with app is to visit https://qnsi-salaryman.herokuapp.com/ and login as
+
+- adding new tasks using form at the bottom
+- moving focus between tasks ("j" and "k")
+- reordering task (shift+j or shift+k)
+- adding subtasks (hover over task and add using form) (keyboard shortcut: "s" when task is focused)
+- deleting tasks (keyboard shortcut: hold "r" when task is focused)
+- marking task as done (hold "d")
+- primitive hiding tasks by clicking minus next to a task (keyboard shortcut "h")
+- viewing done tasks log using link in the sidebar
+
+# How to run
 guest:salarymanguest
 
 To run locally
@@ -33,13 +44,3 @@ in /front-salaryman
 `npx cypress open`
 
 and run `all.cy.ts`
-
-# Functionalities
-
-- adding new tasks using form at the bottom
-- moving focus between tasks ("j" and "k")
-- reordering task (shift+j or shift+k)
-- adding subtasks (hover over task and add using form) (keyboard shortcut: "s" when task is focused)
-- deleting tasks (keyboard shortcut: hold "r" when task is focused)
-- marking task as done (hold "d")
-- primitive hiding tasks by clicking minus next to a task (keyboard shortcut "h")
