@@ -7,6 +7,7 @@ import "./tasks/delete.cy"
 import "./tasks/focusing.cy"
 import "./tasks/markDone.cy"
 import "./tasks/moving.cy"
+import "./tasks/specifing_task.cy"
 import "./tasks/subtasks.cy"
 import "./tasks/visit_tasks.cy.ts"
 

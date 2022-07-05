@@ -49,6 +49,8 @@ function handleKeysWhenBulletFocused(event: KeyboardEvent, params: Params) {
     } else if (event.key === "h") {
       const task = params.tasks.find(task => task.id === params.focusedTaskId)
       params.collapseTask(task)
+    } else if (event.key === "f" && params.focusedTaskId !== 0) {
+      window.location.href = `/?tab=task&id=${params.focusedTaskId}`
     }
   } else {
     if (event.key === "Escape") {
