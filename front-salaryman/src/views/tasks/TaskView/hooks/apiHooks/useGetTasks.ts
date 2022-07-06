@@ -4,16 +4,20 @@ import { TaskType } from "../../../../../types/TaskType"
 
 var initTasks: TaskType[] = []
 
-export function useGetTasksFromBackendAndSet(): [TaskType[], Function] {
+export function useGetTasksFromBackendAndSet(initialTasks: TaskType[], setTasksOld: Function, controlledComponent: boolean): [TaskType[], Function] {
   const [tasks, setTasks] = React.useState(initTasks)
 
   React.useEffect(() => {
-    getTasksFromBackend().then((response) => {
-      handleGetTasksResponse(response.data, setTasks)
-    }).catch(error => {
-      window.alert("We couldn't connect to the server! Try again.\n\n" + error)
-    })
-  }, [])
+    if (controlledComponent) {
+      setTasks(initialTasks)
+    } else {
+      getTasksFromBackend().then((response) => {
+        handleGetTasksResponse(response.data, setTasks)
+      }).catch(error => {
+        window.alert("We couldn't connect to the server! Try again.\n\n" + error)
+      })
+    }
+  }, [initialTasks])
 
   return [tasks, setTasks]
 }

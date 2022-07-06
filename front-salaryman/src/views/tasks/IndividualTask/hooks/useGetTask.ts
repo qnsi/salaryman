@@ -1,39 +1,37 @@
 import React from "react"
 import { getTaskFromBackend } from "../../../../api/getTasks"
-import { TaskType } from "../../../../types/TaskType"
+import { TaskType, TaskWithAncestors } from "../../../../types/TaskType"
 
-var initTask: TaskType = prepareInitTask()
+var initTask: TaskType[] = []
 
-export function useGetTaskFromBackendAndSet(): [TaskType, Function] {
-  const [task, setTask] = React.useState(initTask)
+export function useGetTaskFromBackendAndSet(): [TaskType[], Function] {
+  const [tasks, setTasks] = React.useState(initTask)
 
   React.useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const id = Number(urlParams.get('id'))
     getTaskFromBackend(id).then((response) => {
-      setTask(response.data.task)
+      const tasksInOrder = prepareTasksFromBackend(response.data.task, 0)
+      setTasks(tasksInOrder)
     }).catch(error => {
       window.alert("We couldn't connect to the server! Try again.\n\n" + error)
     })
   }, [])
 
-  return [task, setTask]
+  return [tasks, setTasks]
 }
 
-function prepareInitTask() {
-  var initTask: TaskType = {
-    id: 0,
-    isDone: false,
-    order: 1,
-    intendation: 0,
-    parentId: 0,
-    doneChildren: 0,
-    doneDate: "",
-    text: "",
-    createdAt: "",
-    updatedAt: "",
-    collapsed: false,
-    hidden: false
+
+function prepareTasksFromBackend(task: TaskWithAncestors, intendation: number): TaskType[] {
+  const {childTasks, ...taskWithoutAncestors} = task
+  taskWithoutAncestors.intendation = intendation
+  var ancestorTasks: TaskType[] = []
+
+
+  for (const childTask of childTasks) {
+    const childAncestorTasks = prepareTasksFromBackend(childTask, intendation+1)
+    ancestorTasks = ancestorTasks.concat(childAncestorTasks)
   }
-  return initTask
+
+  return [taskWithoutAncestors].concat(ancestorTasks)
 }

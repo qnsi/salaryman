@@ -24,7 +24,8 @@ export default function NewTaskForm(props: {addNewTask: Function, parentId: numb
     }
   }, [props.inputFocused])
 
-  function handleSubmit() {
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
     props.addNewTask(value, props.parentId)
     props.setInputFocused(false)
     setValue("")

@@ -21,7 +21,7 @@ function App() {
 
   usePersistTab(setView)
 
-  var viewComponent = <TaskView />
+  var viewComponent = <TaskView initialTasks={[]} setTasks={()=>{}} controlledComponent={false} />
   if (view === MainView.TaskLog) {
     viewComponent = <TaskLog />
   } else if (view === MainView.Task) {

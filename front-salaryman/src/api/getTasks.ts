@@ -1,4 +1,4 @@
-import { TaskType } from "../types/TaskType"
+import { TaskType, TaskWithAncestors } from "../types/TaskType"
 import api from "./api"
 import { AxiosResponse } from "axios"
 
@@ -14,8 +14,8 @@ export function getDoneTasksFromBackend(): Promise<AxiosResponse<{status: string
   return api.get<{status: string, tasks: TaskType[]}>(GET_DONE_TASKS_URL)
 }
 
-export function getTaskFromBackend(id: number): Promise<AxiosResponse<{status: string, task: TaskType}>>{
-  return api.get<{status: string, task: TaskType}>(GET_TASK_URL+id)
+export function getTaskFromBackend(id: number): Promise<AxiosResponse<{status: string, task: TaskWithAncestors}>>{
+  return api.get<{status: string, task: TaskWithAncestors}>(GET_TASK_URL+id)
 }
 
 
