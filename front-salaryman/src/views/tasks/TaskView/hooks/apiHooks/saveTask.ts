@@ -30,11 +30,11 @@ function setCorrectIntendation(state: TaskType[], response: newTaskResponse) {
 }
 
 function findAncestorUncle(state: TaskType[], current_task: TaskType): number {
-  if (current_task.parentId === null) {
+  const parent = state.find((task) => task.id === current_task.parentId)
+  if (parent === undefined) {
     return state.length
   }
 
-  const parent = state.find((task) => task.id === current_task.parentId) as TaskType
   const uncles = state.filter((task) => task.parentId === parent.parentId)
   const parentIndexOfInUncles = uncles.indexOf(parent)
 

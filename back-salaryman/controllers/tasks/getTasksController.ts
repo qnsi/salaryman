@@ -29,6 +29,26 @@ export async function getTask(req: Request, res: Response, userId: number, prism
   const task = await prisma.task.findUnique({
     where: {
       id: Number(req.params.taskId)
+    },
+    // 5 levels deep relationship. We could use rawquery to get recurrently from Postgres
+    include: {
+      childTasks: {
+        include: {
+          childTasks: {
+            include: {
+              childTasks: {
+                include: {
+                  childTasks: {
+                    include: {
+                      childTasks: true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   })
   if (task && task.userId == userId) {

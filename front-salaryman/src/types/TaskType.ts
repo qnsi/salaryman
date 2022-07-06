@@ -12,3 +12,5 @@ export type TaskType = {
   collapsed: boolean,
   hidden: boolean,
 }
+
+export type TaskWithAncestors = TaskType & {childTasks: TaskWithAncestors[]}

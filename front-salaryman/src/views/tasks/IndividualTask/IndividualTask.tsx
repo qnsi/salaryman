@@ -1,14 +1,11 @@
 import { useGetTaskFromBackendAndSet } from "./hooks/useGetTask"
 import { TaskType } from "../../../types/TaskType"
+import TaskView from "../TaskView/TaskView"
 
 export default function IndividualTask() {
-  const [task, setTask] = useGetTaskFromBackendAndSet()
+  const [tasks, setTasks] = useGetTaskFromBackendAndSet()
 
   return (
-    <div className="taskview">
-      <div className="tasks">
-        <div><b>{task.text}</b></div>
-      </div>
-    </div>
+    <TaskView initialTasks={tasks} setTasks={setTasks} controlledComponent={true} />
   )
 }

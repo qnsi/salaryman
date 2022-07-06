@@ -10,6 +10,7 @@ guest:salarymanguest
 - marking task as done (hold "d")
 - primitive hiding tasks by clicking minus next to a task (keyboard shortcut "h")
 - viewing done tasks log using link in the sidebar
+- going into "focus mode" on a specific task ("f" to enter, "F" to go back)
 
 # Tree algorithm
 Every task can have a subtasks, which creates a tree like structure. A lot of operation need to find a subtree of a given tree. For example when we move a task, we move all of its subtasks with it, and "paste" it after the next task's subtree.
