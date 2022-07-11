@@ -20,7 +20,7 @@ export default function CrushEditor(props: {inputFocused: boolean, setInputFocus
   }, [value])
 
   return (
-    <textarea className="crush-editor mx-5 mt-2 h-90v"
+    <textarea className="crush-editor mx-2 mt-2 h-90v"
             value={value}
             onChange={(e) => setValue(e.currentTarget.value)} 
             onFocus={(e) => props.setInputFocused(true)}
