@@ -1,18 +1,9 @@
 import React from "react"
 import { CrushLine } from "../../../types/CrushLine"
 
-// var emptyRawLines: string[] = []
-type Interval = {
-  start: number,
-  end: number, 
-  column: number
-}
-
 export default function CrushEditor(props: {inputFocused: boolean, setInputFocused: Function
                                             setLines: Function, lines: CrushLine[] }) {
   const [value, setValue] = React.useState("")
-  // const [firstColumnSlots, setFirstColumnSlots] = React.useState([] as Interval[])
-  // const [previousValue, setPreviousValue] = React.useState(emptyRawLines)
 
   React.useEffect(() => {
     const lines = value.split("\n")

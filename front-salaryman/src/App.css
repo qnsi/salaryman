@@ -22,11 +22,7 @@
 }
 
 .taskWithCrush {
-  /* flex-basis: 90%; 
-  flex-grow: 1; */
   background-color: #f2f4ef;
-  /* display: flex;
-  flex-direction: row; */
 }
 
 .thingview {
@@ -37,24 +33,9 @@
   flex-direction: column;
 }
 
-.tasksView {
-  /* flex-basis: 50%;
-  flex-grow: 1; */
-}
-
 .tasks {
   margin-left: 1%;
   margin-top: 1%;
-}
-
-.crushentropy {
-  /* flex-basis: 50%;
-  flex-grow: 1; */
-}
-
-.task-form {
-  /* flex-basis: 10%;
-  flex-grow: 1; */
 }
 
 .task-container {

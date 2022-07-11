@@ -16,7 +16,11 @@ module.exports = {
         "80v": "80vh",
         "90v": "90vh",
         "100v": "100vh",
+        "1080": "1080px"
       },
+      maxHeight: {
+        "90vh": "100vh"
+      }
     },
   },
   plugins: [],

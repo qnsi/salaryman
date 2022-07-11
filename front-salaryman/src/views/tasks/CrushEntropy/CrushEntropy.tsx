@@ -1,6 +1,7 @@
 import React from "react"
 import CrushEditor from "./CrushEditor"
 import { CrushLine } from "../../../types/CrushLine"
+import CrushCalendar from "./CrushCalendar"
 var emptyCrushLines: CrushLine[] = []
 
 export default function CrushEntropy(props: {inputFocused: boolean, setInputFocused: Function}) {
@@ -14,13 +15,3 @@ export default function CrushEntropy(props: {inputFocused: boolean, setInputFocu
   )
 }
 
-
-function CrushCalendar(props: {lines: CrushLine[]}) {
-  return (
-    <div>
-      {props.lines.map((line) => {
-        return <h1>{line.column}:{line.start}:{line.end} - {line.text}</h1>
-      })}
-    </div>
-  )
-}
