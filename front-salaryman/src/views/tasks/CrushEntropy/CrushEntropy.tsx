@@ -1,5 +1,5 @@
 import React from "react"
-import CrushEditor from "./CrushEditor"
+import CrushEditor from "./CrushEditor/CrushEditor"
 import { CrushLine } from "../../../types/CrushLine"
 import CrushCalendar from "./CrushCalendar"
 var emptyCrushLines: CrushLine[] = []
