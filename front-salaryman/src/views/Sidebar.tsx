@@ -6,6 +6,8 @@ export default function Sidebar(props: {setView: Function}) {
       <a onClick={() => window.location.href = "/?tab=tasks"}>Tasks</a>
       <br/>
       <a onClick={() => window.location.href = "/?tab=log"}>TaskLog</a>
+      <br />
+      <a onClick={() => window.location.href = "/?tab=planner"}>Planner (WIP)</a>
     </div>
   )
 }

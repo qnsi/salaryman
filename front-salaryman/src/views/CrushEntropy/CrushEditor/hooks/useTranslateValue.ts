@@ -1,10 +1,7 @@
 import React from "react"
-import { CrushLine } from "../../../types/CrushLine"
+import { CrushLine } from "../../../../types/CrushLine"
 
-export default function CrushEditor(props: {inputFocused: boolean, setInputFocused: Function
-                                            setLines: Function, lines: CrushLine[] }) {
-  const [value, setValue] = React.useState("")
-
+export default function useTranslateValue(value: string, setLines: Function) {
   React.useEffect(() => {
     const lines = value.split("\n")
     var initialCrushLines: CrushLine[] = []
@@ -16,39 +13,30 @@ export default function CrushEditor(props: {inputFocused: boolean, setInputFocus
       return result
     }, initialCrushLines)
 
-    props.setLines(crushLines)
+    setLines(crushLines)
   }, [value])
 
-  return (
-    <textarea className="crush-editor mx-5 mt-2 h-90v"
-            value={value}
-            onChange={(e) => setValue(e.currentTarget.value)} 
-            onFocus={(e) => props.setInputFocused(true)}
-            onBlur={(e) => props.setInputFocused(false)}
-    >
-    </textarea>
-  )
+}
 
-  function translateLine(line: string, result: CrushLine[]) {
-    if (line.length<11) { return undefined }
-    const start = Number(line.substring(0,4))
-    const end = Number(line.substring(5,9))
-    if (isNaN(start) || isNaN(end)) {
-      return undefined
-    }
-    const column = getColumnAndUpdateState(start, end, result)
-    const text = line.substring(10)
-    const crushLine: CrushLine = {
-      id: 0,
-      day: new Date(),
-      start,
-      end,
-      column,
-      text,
-      task_id: 0
-    }
-    return crushLine
+function translateLine(line: string, result: CrushLine[]) {
+  if (line.length < 11) { return undefined }
+  const start = Number(line.substring(0, 4))
+  const end = Number(line.substring(5, 9))
+  if (isNaN(start) || isNaN(end)) {
+    return undefined
   }
+  const column = getColumnAndUpdateState(start, end, result)
+  const text = line.substring(10)
+  const crushLine: CrushLine = {
+    id: 0,
+    day: new Date(),
+    start,
+    end,
+    column,
+    text,
+    task_id: 0
+  }
+  return crushLine
 }
 
 function getColumnAndUpdateState(start: number, end: number, lines: CrushLine[]) {

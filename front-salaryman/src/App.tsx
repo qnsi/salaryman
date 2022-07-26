@@ -7,11 +7,13 @@ import TaskLog from './views/tasks/TaskLog/TaskLog';
 import TaskView from './views/tasks/TaskView/TaskView';
 import { ThingView } from './views/things/ThingView';
 import IndividualTask from "./views/tasks/IndividualTask/IndividualTask"
+import CrushEntropy from './views/CrushEntropy/CrushEntropy';
 
 export enum MainView {
   Tasks,
   Task,
-  Things,
+  // Things,
+  CrushEntropy,
   TaskLog,
   NoContent
 }
@@ -26,6 +28,12 @@ function App() {
     viewComponent = <TaskLog />
   } else if (view === MainView.Task) {
     viewComponent = <IndividualTask />
+  } else if (view === MainView.CrushEntropy) {
+    viewComponent = (
+      <div className="crushentropy grow basis-2/3">
+        <CrushEntropy />
+      </div>
+    )
   } else if (view === MainView.NoContent) {
     viewComponent = <div>404</div>
   } 

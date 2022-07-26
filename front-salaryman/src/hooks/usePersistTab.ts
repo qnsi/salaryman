@@ -11,6 +11,8 @@ export function usePersistTab(setView: Function) {
       setView(MainView.TaskLog)
     } else if (tab === "task") {
       setView(MainView.Task)
+    } else if (tab === "planner") {
+      setView(MainView.CrushEntropy)
     } else {
       setView(MainView.NoContent)
     }

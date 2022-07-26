@@ -88,3 +88,8 @@
 .task-children-badge {
   font-size: 9px;
 }
+
+.task-collapse-button {
+  margin: auto;
+  padding-right: 4px;
+}
