@@ -1,4 +1,4 @@
-import { CrushLine } from "../../../types/CrushLine"
+import { CrushLine } from "../../types/CrushLine"
 import useFitText from "./hooks/useFitText"
 import React from "react"
 

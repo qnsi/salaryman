@@ -1,5 +1,5 @@
 import React from "react"
-import { CrushLine } from "../../../../../types/CrushLine"
+import { CrushLine } from "../../../../types/CrushLine"
 
 export default function useTranslateValue(value: string, setLines: Function) {
   React.useEffect(() => {

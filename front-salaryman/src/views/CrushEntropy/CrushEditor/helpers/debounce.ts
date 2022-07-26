@@ -6,7 +6,6 @@ export default function debounce(callback: Function, wait: number) {
   return (...args: any) => {
     window.clearTimeout(timeoutId);
     timeoutId = window.setTimeout(() => {
-      console.log("Inside debounce triggered")
       callback.apply(null, args);
     }, wait);
   };
