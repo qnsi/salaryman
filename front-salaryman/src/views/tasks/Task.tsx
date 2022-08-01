@@ -5,9 +5,9 @@ export default function Task(props: { task: TaskType, setAddingSubtaskId: Functi
                                       collapseTask: Function, setFocusedTaskId: Function, focusedTaskId: number,
                                       setFocusedTaskNotDone: Function,
                                       deleteProgress: number, markAsDone: Function, doneProgress: number}) {
-  var collapsedCharacter = "- "
+  var collapsedClass = "fa-solid fa-chevron-down"
   if (props.task.collapsed) {
-    collapsedCharacter = "+ "
+    collapsedClass = "fa-solid fa-chevron-right"
   }
   var intendationArray = Array.from({length: props.task.intendation}, Math.random)
 
@@ -68,7 +68,7 @@ export default function Task(props: { task: TaskType, setAddingSubtaskId: Functi
         )
       })}
       <div className={taskClasses} key={props.task.id} >
-        <span className="task-collapse-button" onClick={() => props.collapseTask(props.task)}>{collapsedCharacter}</span>
+        <i className={"task-collapse-button " + collapsedClass} onClick={() => props.collapseTask(props.task)}></i>
         <span className="task-text">{props.task.text} <span className="task-children-badge">{childrenDoneBadge}</span></span>
         <span className="task-spacer"></span>
         {buttons}

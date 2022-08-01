@@ -11,6 +11,7 @@ export type TaskType = {
   updatedAt: string,
   collapsed: boolean,
   hidden: boolean,
+  userId: number,
 }
 
 export type TaskWithAncestors = TaskType & {childTasks: TaskWithAncestors[]}
