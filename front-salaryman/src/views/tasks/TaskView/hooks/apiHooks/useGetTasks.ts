@@ -25,11 +25,11 @@ export function useGetTasksFromBackendAndSet(initialTasks: TaskType[], setTasksO
 type getTasksResponse = { status: string, tasks: TaskType[] }
 async function handleGetTasksResponse(response: getTasksResponse, setTasks: Function) {
   if (response.status === "ok") {
-    setInitialTasks(response.tasks, setTasks)
+    _setInitialTasks(response.tasks, setTasks)
   }
 }
 
-function setInitialTasks(tasks: TaskType[], setTasks: Function) {
+export function _setInitialTasks(tasks: any, setTasks: Function) {
   const intendatedTasks = prepareTasksWithIntendationAndDoneChildren(tasks)
   const hiddenTasks = hidTaskThatShouldBeCollapsed(intendatedTasks)
   setTasks(hiddenTasks)
@@ -67,6 +67,8 @@ function findTaskChildren(tasks: TaskType[], parent: TaskType, intendation: numb
     }
   }
   parent.doneChildren = doneChildren
+  console.log(children.length)
+  parent.subtaskCount = children.length
   return [ordered, parent]
 }
 

@@ -17,7 +17,7 @@ import NewTaskForm from "../NewTaskForm";
 import Task from "../Task";
 import { TaskType } from "../../../types/TaskType";
 import { deleteTask } from "./hooks/apiHooks/deleteTask";
-import CrushEntropy from "../CrushEntropy/CrushEntropy";
+import CrushEntropy from "../../CrushEntropy/CrushEntropy";
 
 
 export default function TaskView(props: {initialTasks: TaskType[], setTasks: Function, controlledComponent: boolean}) {
@@ -81,9 +81,6 @@ export default function TaskView(props: {initialTasks: TaskType[], setTasks: Fun
           })}
         </div>
         <NewTaskForm addNewTask={addNewTask} parentId={0} focusedTaskId={focusedTaskId} inputFocused={inputFocused} setInputFocused={setInputFocused}/>
-      </div>
-      <div className="crushentropy grow basis-2/3">
-        <CrushEntropy inputFocused={inputFocused} setInputFocused={setInputFocused}/>
       </div>
     </div>
   )
