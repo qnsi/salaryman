@@ -3,3 +3,5 @@ test-results/
 playwright-report/
 tests_old/
 front-salaryman/.nyc_output/out.json
+.tmp
+logfile

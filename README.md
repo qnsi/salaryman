@@ -44,11 +44,22 @@ I have over 90% of test coverage using cypress e2e tests. Cypress gives me big c
 # How to run
 To run locally
 
-In one window:
+## In one window: (backend)
+
+###  using nix
+ `cd back-salaryman`
+ `cp .env.example .env`
+ (you need to update postgresURL)
+ `nix-shell`
+
+### traditional
+
+You need postgres running.
 
 `cd back-salaryman/`
 
 `cp .env.example .env`
+ (you need to update postgresURL)
 
 `npx prisma generate`
 
@@ -58,7 +69,15 @@ In one window:
 
 the server will start at port 3001
 
-In second window:
+## In second window: (frontend)
+
+### nix
+
+  `cd front-salaryman`
+
+  `nix-shell`
+
+### traditional
 
 `cd front-salaryman/`
 
@@ -66,7 +85,7 @@ In second window:
 
 Chat window should open with a very basic chat.
 
-To run tests:
+# To run tests:
 
 in /front-salaryman
 
