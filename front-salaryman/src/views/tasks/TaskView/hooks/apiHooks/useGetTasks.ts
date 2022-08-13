@@ -67,6 +67,8 @@ function findTaskChildren(tasks: TaskType[], parent: TaskType, intendation: numb
     }
   }
   parent.doneChildren = doneChildren
+  console.log(children.length)
+  parent.subtaskCount = children.length
   return [ordered, parent]
 }
 
