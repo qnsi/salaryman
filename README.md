@@ -2,15 +2,26 @@
 Best way to play with app is to visit https://qnsi-salaryman.herokuapp.com/ and login as
 guest:salarymanguest
 
+## Tasks
+Main app is Task management app.
+
+The following works:
+
 - adding new tasks using form at the bottom
 - moving focus between tasks ("j" and "k")
 - reordering task (shift+j or shift+k)
 - adding subtasks (hover over task and add using form) (keyboard shortcut: "s" when task is focused)
 - deleting tasks (keyboard shortcut: hold "r" when task is focused)
 - marking task as done (hold "d")
-- primitive hiding tasks by clicking minus next to a task (keyboard shortcut "h")
+- hiding tasks by clicking minus next to a task (keyboard shortcut "h")
 - viewing done tasks log using link in the sidebar
 - going into "focus mode" on a specific task ("f" to enter, "F" to go back)
+
+## Planner
+This is a copy of https://crushentropy.com/, a cool way to plan your working day. 
+You first plan stuff, writing in a format "0800,0900,working on Planner", and it means I will work on Planner from 8:00 to 9:00. Then below that, you write what you really did at this time.
+
+I find it helps me with productivity and having a log of what I did. Altough it is WIP and saving is not working, despite what the debounced function shows at the bottom of planner.
 
 # Tree algorithm
 Every task can have a subtasks, which creates a tree like structure. A lot of operation need to find a subtree of a given tree. For example when we move a task, we move all of its subtasks with it, and "paste" it after the next task's subtree.
