@@ -1,5 +1,5 @@
 describe("Disabling shortcuts works", () => {
-  it.only("fills with letters kK, but doesn't move tasks", () => {
+  it("fills with letters kK, but doesn't move tasks", () => {
     cy.prepareDb()
     cy.createTask(0, "First task")
     cy.createTask(0, "Second Task")

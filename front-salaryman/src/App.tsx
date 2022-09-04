@@ -8,10 +8,12 @@ import TaskView from './views/tasks/TaskView/TaskView';
 import { ThingView } from './views/things/ThingView';
 import IndividualTask from "./views/tasks/IndividualTask/IndividualTask"
 import CrushEntropy from './views/CrushEntropy/CrushEntropy';
+import Kanban from './views/Kanban/Kanban';
 
 export enum MainView {
   Tasks,
   Task,
+  Kanban,
   // Things,
   CrushEntropy,
   TaskLog,
@@ -34,6 +36,8 @@ function App() {
         <CrushEntropy />
       </div>
     )
+  } else if (view === MainView.Kanban) {
+    viewComponent = <Kanban />
   } else if (view === MainView.NoContent) {
     viewComponent = <div>404</div>
   } 
