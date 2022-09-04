@@ -1,1 +1,0 @@
-/nix/store/jgpc2qfv7bpv8l8wmlfyn67527yz7zyc-postgresql-14.4/bin/postgres "-D" ".test-tmp/mydb"
