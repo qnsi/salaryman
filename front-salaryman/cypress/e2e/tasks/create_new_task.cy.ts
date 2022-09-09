@@ -1,7 +1,7 @@
 describe("Creates a new task", () => {
   it("Displays the new task", () => {
     cy.prepareDb()
-    cy.visit("localhost:3000")
+    cy.visitApp()
 
     // add the task
     const taskName = "Clean the dishes"
@@ -17,7 +17,7 @@ describe("Creates a new task", () => {
 
   it("displays alert when server is down", () => {
     cy.prepareDb()
-    cy.visit("localhost:3000")
+    cy.visitApp()
 
     cy.intercept({url: '/tasks/new', method: "POST"}, {
       statusCode: 404,

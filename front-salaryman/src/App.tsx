@@ -5,7 +5,6 @@ import Navbar from './views/Navbar';
 import Sidebar from './views/Sidebar';
 import TaskLog from './views/tasks/TaskLog/TaskLog';
 import TaskView from './views/tasks/TaskView/TaskView';
-import { ThingView } from './views/things/ThingView';
 import IndividualTask from "./views/tasks/IndividualTask/IndividualTask"
 import CrushEntropy from './views/CrushEntropy/CrushEntropy';
 import Kanban from './views/Kanban/Kanban';
@@ -14,7 +13,6 @@ export enum MainView {
   Tasks,
   Task,
   Kanban,
-  // Things,
   CrushEntropy,
   TaskLog,
   NoContent

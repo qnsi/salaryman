@@ -6,5 +6,6 @@ declare namespace Cypress {
        */
       prepareDb(): Chainable<null>;
       createTask(parentId: number, text: string): Chainable<null>;
+      visitApp(): Chainable<null>;
   }
 }

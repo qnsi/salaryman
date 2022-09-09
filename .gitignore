@@ -4,4 +4,5 @@ playwright-report/
 tests_old/
 front-salaryman/.nyc_output/out.json
 .tmp
+back-salaryman/.test-tmp
 logfile

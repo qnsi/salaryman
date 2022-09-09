@@ -9,7 +9,7 @@ describe("going into specific task mode", () => {
       cy.createTask(taskOneId, "Child 2")
       cy.createTask(0, "Other task")
 
-      cy.visit("localhost:3000")
+      cy.visitApp()
       
       cy.get(".newTaskInput").type('{esc}')
       cy.get("body").type("kkkkkf")
@@ -27,7 +27,7 @@ describe("going into specific task mode", () => {
         cy.createTask(resp.body.task.id, "Ancestor 1")
       })
     })
-    cy.visit("localhost:3000")
+    cy.visitApp()
     cy.get(".newTaskInput").type('{esc}')
     cy.get("body").type("kkf")
     cy.wait(200)

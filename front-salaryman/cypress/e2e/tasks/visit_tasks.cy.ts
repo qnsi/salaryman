@@ -1,7 +1,7 @@
 
 describe('Visits tasks', () => {
   it('Displays empty TaskView with form', () => {
-    cy.visit("localhost:3000")
+    cy.visitApp()
     cy.contains("Add")
   })
 
@@ -18,7 +18,7 @@ describe('Visits tasks', () => {
 
     const stub = cy.stub()
     cy.on("window:alert", stub)
-    cy.visit("localhost:3000")
+    cy.visitApp()
     
     cy.wait(100).then(() => {
       expect(stub.getCall(0)).to.be.calledWith("We couldn't connect to the server! Try again.\n\nAxiosError: Request failed with status code 404")
@@ -36,7 +36,7 @@ describe('Visits tasks', () => {
       cy.createTask(taskOneId, "Child 2")
       cy.createTask(0, "Other task")
 
-      cy.visit("localhost:3000")
+      cy.visitApp()
 
       cy.contains("Child").trigger("mouseover")
       cy.get(".task-collapse-button").eq(1).click()
@@ -48,7 +48,7 @@ describe('Visits tasks', () => {
       cy.get(".task-container").eq(1).should("contain", "Child")
       cy.get(".task-container").should("have.length", 4)
     });
-    cy.visit("localhost:3000")
+    cy.visitApp()
 
     cy.get(".task-container").eq(1).should("contain", "Child")
     cy.get(".task-container").should("have.length", 4)

@@ -13,15 +13,18 @@
 // -- This is a parent command --
 // Cypress.Commands.add('login', (email, password) => { ... })
 Cypress.Commands.add('prepareDb', () => {
-  cy.request('GET', 'localhost:3001/dangerous/only_in_dev/clear_database')
+  cy.request('GET', 'localhost:3333/dangerous/only_in_dev/clear_database')
 })
 Cypress.Commands.add("createTask", (parentId: number, text: string) => {
-  cy.request('POST', 'localhost:3001/tasks/new', {      
+  cy.request('POST', 'localhost:3333/tasks/new', {      
     task: {
       parentId,
       text
     }
   })
+})
+Cypress.Commands.add("visitApp", () => {
+  cy.visit("localhost:3002")
 })
 //
 //

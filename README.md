@@ -50,7 +50,7 @@ As you can see it's hard to explain and hard to implement, espacially with `Ance
 This algorithm is way cleaner and easier to reason about. You can see implementation in `front-salaryman/src/views/tasks/helpers/getSubTreeIds.ts`
 
 # Test coverage
-I have over 90% of test coverage using cypress e2e tests. Cypress gives me big confidence that my functionalities work end to end, altough it takes some time to finish all the tests. 
+I have over 90% of test coverage using cypress e2e tests. Cypress gives me big confidence that my functionalities work end to end, altough it takes some time to finish all the tests. In the future I want to test more utilizing unit testing, as it doesn't scale too well.
 
 # How to run
 To run locally
@@ -97,6 +97,9 @@ the server will start at port 3001
 Chat window should open with a very basic chat.
 
 # To run tests:
+
+Best to run test server and frontend using `nix-shell test.nix` in both backend/ and frontend/. 
+Otherwise make sure ports in `front-salaryman/cypress/support/commands` match ports you want to hit
 
 in /front-salaryman
 
