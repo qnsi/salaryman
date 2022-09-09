@@ -2,7 +2,7 @@ describe("Creates a new task", () => {
   it("works when clicking Subtask button", () => {
     cy.prepareDb()
     cy.createTask(0, "Parent")
-    cy.visit("localhost:3000")
+    cy.visitApp()
 
     cy.contains("Parent").trigger("mouseover")
     cy.contains("Add Subtask").click()
@@ -16,7 +16,7 @@ describe("Creates a new task", () => {
   it("works with keyboard shortcut", () => {
     cy.prepareDb()
     cy.createTask(0, "Parent")
-    cy.visit("localhost:3000")
+    cy.visitApp()
     cy.get(".newTaskInput").type('{esc}')
     cy.get("body").type("ks")
     cy.get(".newTaskInput").eq(0).type("Child")

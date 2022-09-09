@@ -6,7 +6,7 @@ describe("Collapses correctly", () => {
       cy.createTask(0, "Second Task")
       cy.createTask(taskOneId, "Child task 1")
       cy.createTask(taskOneId, "Child task 2")
-      cy.visit("localhost:3000")
+      cy.visitApp()
       cy.get(".newTaskInput").type('{esc}')
       cy.get("body").type("kkkk")
       cy.get("body").type("h")
@@ -21,10 +21,10 @@ describe("Collapses correctly", () => {
       cy.createTask(0, "Second Task")
       cy.createTask(taskOneId, "Child task 1")
       cy.createTask(taskOneId, "Child task 2")
-      cy.visit("localhost:3000")
+      cy.visitApp()
 
       cy.contains("First task").trigger("mouseover")
-      cy.get(".task-container").get("span").eq(0).click()
+      cy.get(".task-container").get("i").eq(0).click()
 
       cy.get(".task-container").eq(1).contains("Second Task")
     });
@@ -40,7 +40,7 @@ describe("Collapses correctly", () => {
         cy.createTask(taskTwoId, "Grandchild")
       })
 
-      cy.visit("localhost:3000")
+      cy.visitApp()
 
       cy.contains("Child").trigger("mouseover")
       cy.get(".task-collapse-button").eq(1).click()
@@ -64,7 +64,7 @@ describe("Collapses correctly", () => {
       cy.createTask(taskOneId, "Child 2")
       cy.createTask(0, "Other task")
 
-      cy.visit("localhost:3000")
+      cy.visitApp()
 
       cy.contains("Child").trigger("mouseover")
       cy.get(".task-collapse-button").eq(1).click()

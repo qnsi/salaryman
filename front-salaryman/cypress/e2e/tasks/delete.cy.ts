@@ -6,7 +6,7 @@ describe("Deletes tasks", () => {
       cy.createTask(0, "Second Task")
       cy.createTask(taskOneId, "Child task 1")
       cy.createTask(taskOneId, "Child task 2")
-      cy.visit("localhost:3000")
+      cy.visitApp()
       cy.get(".newTaskInput").type('{esc}')
       cy.get("body").type("kkkk")
 
@@ -25,7 +25,7 @@ describe("Deletes tasks", () => {
       cy.createTask(0, "Second Task")
       cy.createTask(taskOneId, "Child task 1")
       cy.createTask(taskOneId, "Child task 2")
-      cy.visit("localhost:3000")
+      cy.visitApp()
 
       cy.get(".task-container").eq(0).trigger("mouseover")
       cy.contains("Delete").click()
@@ -37,7 +37,7 @@ describe("Deletes tasks", () => {
   it("displays alert when server is down", () => {
     cy.prepareDb()
     cy.createTask(0, "First task")
-    cy.visit("localhost:3000")
+    cy.visitApp()
 
     cy.intercept({url: '/tasks/delete', method: "POST"}, {
       statusCode: 404,

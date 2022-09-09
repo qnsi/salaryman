@@ -2,7 +2,7 @@ describe("Focusing an element works", () => {
   it("Focuses when hovered", () => {
     cy.prepareDb()
     cy.createTask(0, "Test Task") 
-    cy.visit('localhost:3000')
+    cy.visitApp()
     cy.contains("Test Task").as("first_task")
 
     // task is not focused
@@ -21,7 +21,7 @@ describe("Focusing an element works", () => {
     cy.prepareDb()
     cy.createTask(0, "Task 1") 
     cy.createTask(0, "Task 2") 
-    cy.visit('localhost:3000')
+    cy.visitApp()
     cy.contains("Done").should("not.exist")
     cy.get(".newTaskInput").type('{esc}')
     cy.get("body").type("kkkjj")
@@ -33,12 +33,11 @@ describe("Focusing an element works", () => {
     cy.prepareDb()
     cy.createTask(0, "Task 1") 
     cy.createTask(0, "Task 2") 
-    cy.visit('localhost:3000')
+    cy.visitApp()
     cy.contains("Done").should("not.exist")
     cy.get(".newTaskInput").type('{esc}')
     cy.get("body").type("j")
     cy.get(".task-container").eq(0).get(".task").should("have.class", "task-focused")
-
   })
 
   it("focuses correctly with hidden tasks", () => {
@@ -58,7 +57,7 @@ describe("Focusing an element works", () => {
         cy.createTask(taskTwoId, "Grandchild")
       })
     })
-    cy.visit("localhost:3000")
+    cy.visitApp()
 
     cy.contains("Child").trigger("mouseover")
     cy.get(".task-collapse-button").eq(1).click()

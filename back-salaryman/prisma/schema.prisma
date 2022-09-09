@@ -24,31 +24,3 @@ model Task {
   childTasks Task[] @relation("TaskRelation")
   parentId Int?
 }
-
-model Category {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  name   String
-  fields Field[]
-  things Thing[]
-}
-
-model Field {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  category Category @relation(fields: [categoryId], references: [id])
-  categoryId Int
-  name   String
-  type String
-}
-
-model Thing {
-  id Int @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  category Category @relation(fields: [categoryId], references: [id])
-  categoryId Int
-  value String
-}

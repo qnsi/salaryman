@@ -3,7 +3,7 @@ describe("Moving tasks works", () => {
     cy.prepareDb()
     cy.createTask(0, "First task")
     cy.createTask(0, "Second Task")
-    cy.visit("localhost:3000")
+    cy.visitApp()
 
     cy.get(".task-container").first().contains("First task")
     cy.get(".task-container").eq(1).contains("Second Task")
@@ -26,7 +26,7 @@ describe("Moving tasks works", () => {
     cy.prepareDb()
     cy.createTask(0, "First task")
     cy.createTask(0, "Second Task")
-    cy.visit("localhost:3000")
+    cy.visitApp()
 
     cy.get(".newTaskInput").type('{esc}')
     cy.get("body").type("kk")
@@ -43,7 +43,7 @@ describe("Moving tasks works", () => {
       cy.createTask(0, "Second Task")
       cy.createTask(taskOneId, "Child task 1")
       cy.createTask(taskOneId, "Child task 2")
-      cy.visit("localhost:3000")
+      cy.visitApp()
       cy.get(".newTaskInput").type('{esc}')
       cy.get("body").type("kk")
       cy.get("body").type("KK")

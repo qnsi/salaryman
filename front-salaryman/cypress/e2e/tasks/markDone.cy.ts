@@ -6,7 +6,7 @@ describe("Marks task as done", () => {
       cy.createTask(0, "Second Task")
       cy.createTask(taskOneId, "Child task 1")
       cy.createTask(taskOneId, "Child task 2")
-      cy.visit("localhost:3000")
+      cy.visitApp()
       cy.get(".newTaskInput").type('{esc}')
       cy.get("body").type("kkk")
 
@@ -27,7 +27,7 @@ describe("Marks task as done", () => {
       cy.createTask(0, "Second Task")
       cy.createTask(taskOneId, "Child task 1")
       cy.createTask(taskOneId, "Child task 2")
-      cy.visit("localhost:3000")
+      cy.visitApp()
       cy.contains("Child task 1").trigger("mouseover")
       cy.contains("Done").click()
 
@@ -45,7 +45,7 @@ describe("Marks task as done", () => {
         const taskTwoId = second_resp.body.task.id
         cy.createTask(taskTwoId, "Child 2")
       })
-      cy.visit("localhost:3000")
+      cy.visitApp()
       cy.contains("Child 1").trigger("mouseover")
       cy.contains("Done").click()
 
@@ -59,7 +59,7 @@ describe("Marks task as done", () => {
     cy.prepareDb()
     cy.createTask(0, "First task")
     cy.createTask(0, "Second task")
-    cy.visit("localhost:3000")
+    cy.visitApp()
     cy.contains("First task").trigger("mouseover")
     cy.contains("Done").click()
     cy.contains("Second task").trigger("mouseover")
@@ -70,7 +70,7 @@ describe("Marks task as done", () => {
   it("displays alert when server is down", () => {
     cy.prepareDb()
     cy.createTask(0, "First task")
-    cy.visit("localhost:3000")
+    cy.visitApp()
 
     cy.intercept({url: '/tasks', method: "PUT"}, {
       statusCode: 404,
