@@ -1,15 +1,18 @@
 import React from "react"
 import { CrushLine } from "../../../types/CrushLine"
 import useAutoSaveInBackend from "./hooks/useAutoSaveInBackend"
+import useGetCrushEditorValueFromBackend from "./hooks/useGetCrushEditorValueFromBackend"
 import useTranslateValue from "./hooks/useTranslateValue"
+import { Temporal } from 'temporal-polyfill'
 
 export default function CrushEditor(props: { setLines: Function, lines: CrushLine[] }) {
+  const [day, setDay] = React.useState(Temporal.Now.plainDateISO().toString())
 
-  const [value, setValue] = React.useState("")
+  const [value, setValue] = useGetCrushEditorValueFromBackend(day)
   const [autoSaveState, setAutoSaveState] = React.useState("State saved")
 
   useTranslateValue(value, props.setLines)
-  useAutoSaveInBackend(setAutoSaveState, value)
+  useAutoSaveInBackend(setAutoSaveState, value, day)
 
   return (
     <div className="flex flex-col">

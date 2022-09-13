@@ -1,11 +1,13 @@
 import debounce from "../helpers/debounce";
 import React from "react";
-import { saveCrushEditor } from "../../../../api/saveCrushEditor";
+import { saveCrushEditor } from "../../../../api/crushEntropy/saveCrushEditor";
 
-export default function useAutoSaveInBackend(setAutoSaveState: Function, value: string) {
+export default function useAutoSaveInBackend(setAutoSaveState: Function, value: string, day: string) {
+  const valueRef = React.useRef(value)
+
   const autoSave = React.useMemo(
     () => debounce(() => {
-      saveCrushEditor(value).then((resp) => {
+      saveCrushEditor(valueRef.current, day).then((resp) => {
         setAutoSaveState("State saved")
       }).catch((err) => {
         setAutoSaveState("Error" + err)
@@ -15,6 +17,7 @@ export default function useAutoSaveInBackend(setAutoSaveState: Function, value: 
   );
 
   React.useEffect(() => {
+    valueRef.current = value
     setAutoSaveState("Saving...")
     autoSave()
   }, [value])

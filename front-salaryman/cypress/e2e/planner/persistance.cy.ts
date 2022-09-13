@@ -6,6 +6,7 @@ describe("Persistance", () => {
     cy.get(".crush-editor").type("0800,0825,first pomodoro{enter}")
     cy.get(".crush-editor").type("0830,0855,second pomodoro")
 
+    cy.wait(1000)
     cy.visitPlanner()
 
     cy.get(".calendar-block").eq(0).should("contain", "first pomodoro")

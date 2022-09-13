@@ -12,3 +12,4 @@ import "./tasks/subtasks.cy"
 import "./tasks/visit_tasks.cy.ts"
 
 import "./planner/displays_plan.cy"
+import "./planner/persistance.cy"

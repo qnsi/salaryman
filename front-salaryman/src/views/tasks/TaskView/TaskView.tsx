@@ -17,7 +17,6 @@ import NewTaskForm from "../NewTaskForm";
 import Task from "../Task";
 import { TaskType } from "../../../types/TaskType";
 import { deleteTask } from "./hooks/apiHooks/deleteTask";
-import CrushEntropy from "../../CrushEntropy/CrushEntropy";
 
 
 export default function TaskView(props: {initialTasks: TaskType[], setTasks: Function, controlledComponent: boolean}) {

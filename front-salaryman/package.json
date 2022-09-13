@@ -15,11 +15,12 @@
     "@types/react-dom": "^18.0.4",
     "axios": "^0.27.2",
     "istanbul-lib-coverage": "^3.2.0",
-    "resize-observer-polyfill": "^1.5.1",
     "nyc": "^15.1.0",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-scripts": "5.0.1",
+    "resize-observer-polyfill": "^1.5.1",
+    "temporal-polyfill": "^0.0.8",
     "typescript": "^4.6.4",
     "web-vitals": "^2.1.4"
   },
