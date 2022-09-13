@@ -21,7 +21,7 @@ The following works:
 This is a copy of https://crushentropy.com/, a cool way to plan your working day. 
 You first plan stuff, writing in a format "0800,0900,working on Planner", and it means I will work on Planner from 8:00 to 9:00. Then below that, you write what you really did at this time.
 
-I find it helps me with productivity and having a log of what I did. Altough it is WIP and saving is not working, despite what the debounced function shows at the bottom of planner.
+I find it helps me with productivity and having a log of what I did. Saving now works, moving between days is comming next together with option to mention specific tasks for better logging purposes.
 
 # Tree algorithm
 Every task can have a subtasks, which creates a tree like structure. A lot of operation need to find a subtree of a given tree. For example when we move a task, we move all of its subtasks with it, and "paste" it after the next task's subtree.
