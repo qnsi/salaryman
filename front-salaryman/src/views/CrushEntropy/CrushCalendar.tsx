@@ -8,12 +8,12 @@ export default function CrushCalendar(props: {lines: CrushLine[]}) {
   var columnThreeLines = props.lines.filter(line => line.column == 3)
 
   return (
-    <div className="max-h-90vh h-90v, overflow-auto relative flex flex-column">
+    <div className="crush-calendar max-h-90vh h-90v, overflow-auto relative flex flex-column">
       <HoursDisplay />
       <div className="flex flex-row h-1080 relative">
-        <CalendarRow lines={columnOneLines} />
-        <CalendarRow lines={columnTwoLines} />
-        <CalendarRow lines={columnThreeLines} />
+        <CalendarRow lines={columnOneLines} column={1}/>
+        <CalendarRow lines={columnTwoLines} column={2}/>
+        <CalendarRow lines={columnThreeLines} column={3}/>
       </div>
     </div>
   )
@@ -46,9 +46,10 @@ function HoursDisplay() {
   )
 }
 
-function CalendarRow(props: { lines: CrushLine[] }) {
+function CalendarRow(props: { lines: CrushLine[], column: number }) {
+  const idClassName = "calendar-row-" + props.column
   return (
-    <div className="">
+    <div className={idClassName} >
       {
         props.lines.map(line => {
           return <CalendarBlock line={line} />
@@ -66,7 +67,7 @@ function CalendarBlock(props: { line: CrushLine}) {
 
   const { fontSize, ref } = useFitText()
   return (
-    <div ref={ref} className="absolute border border-orange-200" style={{
+    <div ref={ref} className="calendar-block absolute border border-orange-200" style={{
       top: startPixel,
       left: 120*(props.line.column - 1),
       width:"120px",

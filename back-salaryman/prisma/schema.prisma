@@ -24,3 +24,13 @@ model Task {
   childTasks Task[] @relation("TaskRelation")
   parentId Int?
 }
+
+model CrushEditorState {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId Int @default(2)
+  value String
+  day String
+  @@unique([userId, day])
+}

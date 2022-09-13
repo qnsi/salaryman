@@ -26,6 +26,9 @@ Cypress.Commands.add("createTask", (parentId: number, text: string) => {
 Cypress.Commands.add("visitApp", () => {
   cy.visit("localhost:3002")
 })
+Cypress.Commands.add("visitPlanner", () => {
+  cy.visit("localhost:3002/?tab=planner")
+})
 //
 //
 // -- This is a child command --

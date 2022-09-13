@@ -10,3 +10,6 @@ import "./tasks/moving.cy"
 import "./tasks/IndividualTask/specifing_task.cy"
 import "./tasks/subtasks.cy"
 import "./tasks/visit_tasks.cy.ts"
+
+import "./planner/displays_plan.cy"
+import "./planner/persistance.cy"

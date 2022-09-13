@@ -7,6 +7,8 @@ import deleteTask from "./controllers/tasks/deleteTasksController"
 import { updateTask } from "./controllers/tasks/updateTaskController"
 import expressBasicAuth from "express-basic-auth"
 import * as basicAuth from 'express-basic-auth'
+import { saveCrushEditor } from "./controllers/crushEditor/saveCrushEditorController"
+import getCrushEditorState from "./controllers/crushEditor/getCrushEditorState"
 
 const path = require("path");
 
@@ -70,11 +72,24 @@ app.put("/tasks", (req: Request, res: Response) => {
   updateTask(req, res, prisma)
 })
 
+app.post("/crush_editor/new", (req: Request, res: Response) => {
+  const userId = getUserIdFromReq(req as basicAuth.IBasicAuthedRequest)
+  saveCrushEditor(req, res, userId, prisma)
+})
+
+app.get("/crush_editor/:crushEditorDay", (req: Request, res: Response) => {
+  console.log("Crush Editor GET")
+  console.log(req)
+  const userId = getUserIdFromReq(req as basicAuth.IBasicAuthedRequest)
+  getCrushEditorState(req, res, userId, prisma)
+})
+ 
 
 // hacky way to clear test_db between tests. Probably would need docker to run tests in real isolation
 app.get("/dangerous/only_in_dev/clear_database", async (req: Request, res: Response) => {
   console.log("Clearing the db")
   await prisma.task.deleteMany({})
+  await prisma.crushEditorState.deleteMany({})
   // const user = await createSeedUser("qnsi")
   // await createSeedDocumentWithBullet("main", user.id)
   res.json({status: "ok"})
