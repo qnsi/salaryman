@@ -19,7 +19,7 @@ import { TaskType } from "../../../types/TaskType";
 import { deleteTask } from "./hooks/apiHooks/deleteTask";
 
 
-export default function TaskView(props: {initialTasks: TaskType[], setTasks: Function, controlledComponent: boolean}) {
+export default function TaskView(props: {initialTasks: TaskType[], controlledComponent: boolean}) {
   const [addingSubtaskId, setAddingSubtaskId] = React.useState(0)
 
   const [focusedTaskId, setFocusedTaskId] = React.useState(0)
@@ -29,7 +29,7 @@ export default function TaskView(props: {initialTasks: TaskType[], setTasks: Fun
   const [deleteProgress, setDeleteProgress] = React.useState(0)
   const [doneProgress, setDoneProgress] = React.useState(0)
 
-  const [tasks, setTasks] = useGetTasksFromBackendAndSet(props.initialTasks, props.setTasks, props.controlledComponent)
+  const [tasks, setTasks] = useGetTasksFromBackendAndSet(props.initialTasks, props.controlledComponent)
 
   useKeyboardShortcuts({tasks, focusedTaskId, setFocusedTaskId, setFocusedTaskNotDone, setAddingSubtaskId, setInputFocused, inputFocused, collapseTask, moveTaskUp: _moveTaskUp, moveTaskDown: _moveTaskDown})
   useHoldKeyboardShortcuts(deleteProgress, setDeleteProgress, _deleteTask, focusedTaskId, focusedTaskNotDone,
