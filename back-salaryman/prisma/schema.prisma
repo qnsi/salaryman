@@ -42,5 +42,7 @@ model Card {
   userId Int @default(2)
   text String
   stage String
+  order Int
+  @@unique([userId, stage, order])
   @@unique([userId, id])
 }

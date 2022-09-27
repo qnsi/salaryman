@@ -6,6 +6,7 @@ import { updateCard } from "../../api/Kanban/updateCard"
 
 export type KanbanCard = {
   id: number
+  order: number
   text: string
   stage: string
 }
@@ -14,7 +15,6 @@ export default function Kanban() {
   var initCards: KanbanCard[] = []
 
   const [cards, setCards] = React.useState(initCards)
-  const [lastId, setLastId] = React.useState(1)
   const optionsCards = cards.filter((card: KanbanCard) => card.stage === "options")
   const doingCards = cards.filter((card: KanbanCard) => card.stage === "doing")
   const doneCards = cards.filter((card: KanbanCard) => card.stage === "done")
@@ -47,7 +47,7 @@ export default function Kanban() {
       <Spacer />
 
       <CardGrouper name="options" cards={optionsCards} updateCardStage={updateCardStage}>
-        <AddNewCard setCards={setCards} lastId={lastId} setLastId={setLastId}/>
+        <AddNewCard setCards={setCards} />
       </CardGrouper>
 
       <Spacer />
@@ -112,7 +112,7 @@ function Spacer() {
   )
 }
 
-function AddNewCard(props: {setCards: Function, lastId: number, setLastId: Function}) {
+function AddNewCard(props: {setCards: Function}) {
   const [value, setValue] = React.useState("")
 
   function submit(event: FormEvent) {
@@ -124,11 +124,11 @@ function AddNewCard(props: {setCards: Function, lastId: number, setLastId: Funct
           {
             id: response.data.card.id,
             text: response.data.card.text,
-            stage: "options"
+            stage: "options",
+            order: response.data.card.order,
           }
         ])
       })
-      props.setLastId((lastId: number) => lastId + 1)
     })
     .catch(error => {
       window.alert("We couldn't connect to the server! Try again.\n\n" + error)
