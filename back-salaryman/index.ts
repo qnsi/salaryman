@@ -9,6 +9,9 @@ import expressBasicAuth from "express-basic-auth"
 import * as basicAuth from 'express-basic-auth'
 import { saveCrushEditor } from "./controllers/crushEditor/saveCrushEditorController"
 import getCrushEditorState from "./controllers/crushEditor/getCrushEditorState"
+import { saveCard } from "./controllers/cards/saveCard"
+import { getCards } from "./controllers/cards/getCards"
+import { updateCard } from "./controllers/cards/updateCard"
 
 const path = require("path");
 
@@ -83,13 +86,30 @@ app.get("/crush_editor/:crushEditorDay", (req: Request, res: Response) => {
   const userId = getUserIdFromReq(req as basicAuth.IBasicAuthedRequest)
   getCrushEditorState(req, res, userId, prisma)
 })
+
+app.post("/card/new", (req: Request, res: Response) => {
+  const userId = getUserIdFromReq(req as basicAuth.IBasicAuthedRequest)
+  saveCard(req, res, userId, prisma)
+})
+
+app.get("/cards", (req: Request, res: Response) => {
+  const userId = getUserIdFromReq(req as basicAuth.IBasicAuthedRequest)
+  getCards(req, res, userId, prisma)
+})
+
+app.post("/card/update", (req: Request, res: Response) => {
+  const userId = getUserIdFromReq(req as basicAuth.IBasicAuthedRequest)
+  updateCard(req, res, userId, prisma)
+})
  
 
 // hacky way to clear test_db between tests. Probably would need docker to run tests in real isolation
 app.get("/dangerous/only_in_dev/clear_database", async (req: Request, res: Response) => {
+  if (process.env.REACT_APP_APP_ENV !== "dev") { return }
   console.log("Clearing the db")
   await prisma.task.deleteMany({})
   await prisma.crushEditorState.deleteMany({})
+  await prisma.card.deleteMany({})
   // const user = await createSeedUser("qnsi")
   // await createSeedDocumentWithBullet("main", user.id)
   res.json({status: "ok"})

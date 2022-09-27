@@ -5,6 +5,7 @@ import useGetCrushEditorValueFromBackend from "./hooks/useGetCrushEditorValueFro
 import useTranslateValue from "./hooks/useTranslateValue"
 import { Temporal } from 'temporal-polyfill'
 import TaskDropdown from "../TaskDropdown/TaskDrowdown"
+import { TaskType } from "../../../types/TaskType"
 
 // React types lack a data property, which is on the object and is needed. 
 // This workaround is to stop typescript complaining, but should be correct
@@ -16,7 +17,7 @@ interface CustomTarget {
   innerHTML ?: string
 }
 
-export default function CrushEditor(props: { setLines: Function, lines: CrushLine[] }) {
+export default function CrushEditor(props: { setLines: Function, lines: CrushLine[], tasks: TaskType[] }) {
   const [day, setDay] = React.useState(Temporal.Now.plainDateISO().toString())
 
   const [value, setValue] = useGetCrushEditorValueFromBackend(day)
@@ -66,7 +67,7 @@ export default function CrushEditor(props: { setLines: Function, lines: CrushLin
         className="crush-editor mx-2 mt-2 h-90v text-xs"
       >
       </div>
-      <TaskDropdown isShowing={showingDropdown} dropdownCoords={dropdownCoords} />
+      <TaskDropdown isShowing={showingDropdown} dropdownCoords={dropdownCoords} tasks={props.tasks} />
       <p>{autoSaveState}</p>
     </div>
   )

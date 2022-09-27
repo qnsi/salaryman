@@ -4,7 +4,7 @@ import { TaskType } from "../../../../../types/TaskType"
 
 var initTasks: TaskType[] = []
 
-export function useGetTasksFromBackendAndSet(initialTasks: TaskType[], setTasksOld: Function, controlledComponent: boolean): [TaskType[], Function] {
+export function useGetTasksFromBackendAndSet(initialTasks: TaskType[], controlledComponent: boolean): [TaskType[], Function] {
   const [tasks, setTasks] = React.useState(initTasks)
 
   React.useEffect(() => {

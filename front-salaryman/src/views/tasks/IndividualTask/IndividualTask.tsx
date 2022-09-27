@@ -6,6 +6,6 @@ export default function IndividualTask() {
   const [tasks, setTasks] = useGetTaskFromBackendAndSet()
 
   return (
-    <TaskView initialTasks={tasks} setTasks={setTasks} controlledComponent={true} />
+    <TaskView initialTasks={tasks} controlledComponent={true} />
   )
 }

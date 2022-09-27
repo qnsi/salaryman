@@ -1,4 +1,8 @@
-export default function TaskDropdown(props: {isShowing: boolean, dropdownCoords: {x: number, y: number}}) {
+import React from "react"
+import { getTasksFromBackend } from "../../../api/getTasks"
+import { TaskType } from "../../../types/TaskType"
+
+export default function TaskDropdown(props: {isShowing: boolean, dropdownCoords: {x: number, y: number}, tasks: TaskType[]}) {
   var element = <></>
   if (props.isShowing) {
     element = <div 
@@ -9,7 +13,9 @@ export default function TaskDropdown(props: {isShowing: boolean, dropdownCoords:
       }}
       className="bg-slate-200"
     >
-      This is dropdown
+      {props.tasks.map((task) => {
+        return <div>{task.text}</div>
+      })}
     </div>
   }
 
