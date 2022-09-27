@@ -33,7 +33,7 @@ if (process.env.REACT_APP_APP_ENV === "production") {
 }
 
 function getUserIdFromReq(req: basicAuth.IBasicAuthedRequest) {
-  if (process.env.REACT_APP_APP_ENV === "dev") {
+  if (process.env.APP_ENV === "dev") {
     return 1
   }
   if (req.auth.user === "guest") {
@@ -105,7 +105,7 @@ app.post("/card/update", (req: Request, res: Response) => {
 
 // hacky way to clear test_db between tests. Probably would need docker to run tests in real isolation
 app.get("/dangerous/only_in_dev/clear_database", async (req: Request, res: Response) => {
-  if (process.env.REACT_APP_APP_ENV !== "dev") { return }
+  if (process.env.APP_ENV === "production") { return }
   console.log("Clearing the db")
   await prisma.task.deleteMany({})
   await prisma.crushEditorState.deleteMany({})
