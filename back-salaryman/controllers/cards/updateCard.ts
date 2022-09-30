@@ -22,9 +22,6 @@ export async function updateCard(req: Request, res: Response, userId: number, pr
 }
 
 async function updateOrder(newOrder: number, cardToBeUpdated: Card, userId: number, prisma: PrismaClient) {
-  await setTempOrderLargerThanLength(cardToBeUpdated, userId, prisma)
-  console.log("updateOrder")
-  console.log(newOrder, cardToBeUpdated)
   if (newOrder > cardToBeUpdated.order) {
     // for every card gt cardToBeUpdated.order ltequal newOrder
     // order decrement
@@ -45,44 +42,19 @@ async function updateOrder(newOrder: number, cardToBeUpdated: Card, userId: numb
   } else {
     // for every card gtequal newOrder lt cardToBeUpdated.order
     // order increment
-    // const cards = await prisma.card.updateMany({
-    //   where: {
-    //     order: {
-    //       gte: newOrder, // 1
-    //       lt: cardToBeUpdated.order // 4
-    //     },
-    //     stage: cardToBeUpdated.stage
-    //   },
-    //   data: {
-    //     order: {
-    //       increment: 1
-    //     }
-    //   }
-    // })
-    const cards = await prisma.card.findMany({
+    const cards = await prisma.card.updateMany({
       where: {
-        userId,
-        stage: cardToBeUpdated.stage,
         order: {
-          gte: newOrder,
-          lt: cardToBeUpdated.order
+          gte: newOrder, // 1
+          lt: cardToBeUpdated.order // 4
+        },
+        stage: cardToBeUpdated.stage
+      },
+      data: {
+        order: {
+          increment: 1
         }
       }
-    })
-    cards.sort((a, b) => b.order - a.order).forEach((card) => {
-      console.log("CARD")
-      console.log(card)
-      prisma.card.update({
-        where: {
-          id: card.id
-        }, 
-        data: {
-          order: card.order + 1
-        }
-      }).then(newCard => {
-        console.log("CARD UPDATED")
-        console.log(newCard)
-      })
     })
   }
   // set cardToBeUpdated order to newOrder
@@ -94,25 +66,6 @@ async function updateOrder(newOrder: number, cardToBeUpdated: Card, userId: numb
       order: newOrder
     }
   })
-}
-
-async function setTempOrderLargerThanLength(cardToBeUpdated: Card, userId: number, prisma: PrismaClient) {
-    const cardsLength = (await prisma.card.findMany({
-      where: {
-        userId,
-        stage: cardToBeUpdated.stage
-      }
-    })).length
-
-    // set cardToBeUpdated order to length+1 temporarly
-    await prisma.card.update({
-      where: {
-        id: cardToBeUpdated.id
-      }, 
-      data: {
-        order: cardsLength + 1
-      }
-    })
 }
 
 async function updateStage(stage: string, cardToBeUpdated: Card, userId: number, prisma: PrismaClient) {

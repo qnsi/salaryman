@@ -31,12 +31,7 @@ export default function Kanban() {
   }, [])
 
   function updateCardStage(stage: string) {
-    // const draggedCard = cards.find(card => card.id === draggedCardId) as KanbanCard
-    // if (draggedCard.stage === stage) {
-    //   updateOrder(stage)
-    // } else {
-      updateStage(stage)
-    // }
+    updateStage(stage)
   }
 
   function updateCardOrder(stage: string, cardId: number) {
@@ -69,14 +64,11 @@ export default function Kanban() {
   }
 
   function updateCardOrderWhileDragging(draggedOverCardId: number) {
-    console.log("updateCardOrderWHielDragigin")
-    console.log(draggedCardId, draggedOverCardId)
-    console.log(cards)
     const draggedCard = cards.find(card => card.id === draggedCardId) as KanbanCard
     const draggedOverCard = cards.find(card => card.id === draggedOverCardId) as KanbanCard
 
     setCards((prevState: KanbanCard[]) => {
-      const nextState =  prevState.map(card => {
+      return prevState.map(card => {
         if (card.id == draggedCardId) {
           return {...card, order: draggedOverCard.order}
         }
@@ -85,9 +77,6 @@ export default function Kanban() {
         }
         return card
       })
-      // its not working because the vars are not observing state. 
-      console.log(nextState)
-      return nextState
     })
   }
 
