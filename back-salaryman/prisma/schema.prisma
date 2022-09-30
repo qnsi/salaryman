@@ -43,6 +43,5 @@ model Card {
   text String
   stage String
   order Int
-  @@unique([userId, stage, order])
   @@unique([userId, id])
 }
