@@ -12,13 +12,26 @@ export async function updateCard(req: Request, res: Response, userId: number, pr
   if (guardAgainstNotFoundAndNotAuthorized(cardToBeUpdated, userId, res)) { return }
 
   var card
-  if (cardToBeUpdated!.stage === req.body.card.stage) {
+  if (cardToBeUpdated!.text !== req.body.card.text) {
+    card = updateText(req.body.card.text, cardToBeUpdated!, userId, prisma)
+  } else if (cardToBeUpdated!.stage === req.body.card.stage) {
     card = updateOrder(req.body.card.order, cardToBeUpdated!, userId, prisma)
   } else {
     card = updateStage(req.body.card.stage, cardToBeUpdated!, userId, prisma)
   }
 
   res.json({card: card, status: "ok"})
+}
+
+async function updateText(newText: string, cardToBeUpdated: Card, userId: number, prisma: PrismaClient) {
+  await prisma.card.update({
+    where: {
+      id: cardToBeUpdated.id
+    }, 
+    data: {
+      text: newText
+    }
+  })
 }
 
 async function updateOrder(newOrder: number, cardToBeUpdated: Card, userId: number, prisma: PrismaClient) {
