@@ -12,7 +12,7 @@ export async function updateCard(req: Request, res: Response, userId: number, pr
   if (guardAgainstNotFoundAndNotAuthorized(cardToBeUpdated, userId, res)) { return }
 
   var card
-  if (cardToBeUpdated!.text !== req.body.card.text) {
+  if (req.body.card.text !== undefined) {
     card = updateText(req.body.card.text, cardToBeUpdated!, userId, prisma)
   } else if (cardToBeUpdated!.stage === req.body.card.stage) {
     card = updateOrder(req.body.card.order, cardToBeUpdated!, userId, prisma)
